@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semantics in HTMl</title>
+    <style>
+        .all-browsers{
+            margin:0;
+            padding: 5px;
+            background-color: lightgrey;
+        }
+        .browsers{
+            background-color: white;
+        }
+        .all-browsers > h1,.browsers{
+            margin: 10px;
+            padding: 5px;
+        }
+        .browsers >h2 ,p{
+            margin:4px;
+            font-size: 90%;
+        }
+        aside{
+            width:30%;
+            height: 50%;
+            padding-left: 15px;
+            margin-left: 15px;
+            float: right;
+            background-color: lightcyan;
+        }
+
+    </style>
+</head>
+<body>
+    <section class="all-browsers">
+        <header>
+            <h1>Most popular browsers</h1>
+        </header>
+        <nav>
+            <a href="#html">HTML</a>
+            <a href="#css">CSS</a>
+            <a href="#JS">JavaScript</a>
+        </nav>
+        <aside>
+            <p>
+                The Epcot center is a theme park at Walt Disney World Resort featuring exciting attractions, international pavilions, award-winning fireworks and seasonal special events.
+            </p>
+        </aside>
+        <article class="browsers">
+            <h2>Google Chrome</h2>
+            <p>Google Chrome is a web browser developed by Google, released in 2008. Chrome is the world's most popular web browser today!</p>
+        </article>
+
+        <article class="browsers">
+            <h2>Mozilla Firefox</h2>
+            <p>Mozilla Firefox is an open-source web browser developed by Mozilla. Firefox has been the second most popular web browser since January, 2018.</p>
+        </article>
+        
+    </section>
+    <footer>
+        <p>Author : Hege Refsnes</p>
+        <p><a href="mailto:drashti.sitapara@example.com">drashti.sitapara@example.com</a></p>
+    </footer>
+</body>
+</html>

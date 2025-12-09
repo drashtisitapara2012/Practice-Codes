@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tables</title>
+    <!--border-collapse : collapse (to avoid double border)-->
+    <style>
+        table,th,td{
+            border:2px solid black;
+            border-radius:5px;
+            border-color:cadetblue;
+            text-align:center
+        }
+        th,td{
+            padding:15px;
+        }
+        table{
+            border-spacing:20px;
+        }
+        .highlightOnHover tr:hover{
+            background-color: darkkhaki;
+        }
+    </style>
+</head>
+<body>
+    <table style="width:100%">
+        <tr>
+            <th>Company</th>
+            <th>Contract</th>
+            <th>Country</th>
+        </tr>
+        <tr>
+            <td>Alfreds Futterkiste</td>
+            <td>Maria Anders</td>
+            <td>Germany</td>
+        </tr>
+        <tr>
+            <td>Centro comercial Moctezuma</td>
+            <td>Francisco Chang</td>
+            <td>Mexico</td>
+        </tr>
+    </table>
+    <br>
+    <table>
+        <tr>
+            <th colspan="2"> Name</th>
+            <th>Age</th>
+        </tr>
+        <tr>
+            <td>Jill</td>
+            <td>Smith</td>
+            <td>30</td>
+        </tr>
+         <tr>
+            <td>Eve</td>
+            <td>Jackson</td>
+            <td>27</td>
+        </tr>
+    </table>
+    <br>
+    <table class="highlightOnHover" style="width:100%">
+        <colgroup>
+            <col span="2" style="background-color: #D6EEEE">
+            <col span="3" style="background-color: pink">
+            <col span="2" style="background-color: lightcyan">
+        </colgroup>
+        <tr>
+            <th>MON</th>
+            <th>TUE</th>
+            <th>WED</th>
+            <th>THU</th>
+            <th>FRI</th>
+            <th>SAT</th>
+            <th>SUN</th>
+        </tr>
+        <tr>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+        </tr>
+        <tr>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+        </tr>
+         <tr>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+        </tr>
+    </table>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Cotent</title>
+    <style>
+        *{
+            box-sizing: border-box;
+        }
+        .left{
+            background-color: darkseagreen;
+            padding: 20px;
+            float: left;
+            width:20%;
+        }
+        .main{
+            background-color:beige;
+            padding: 20px;
+            float: left;
+            width:40%;
+        }
+        .right{
+            background-color: darkseagreen;
+            padding: 20px;
+            float: left;
+            width:20%;
+        }
+        @media screen and(max-width:800px){
+            .left, .main, .right{
+                width:100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!--vw means viewport width.This way the text will follow the size of browser window-->
+    <h1 style="font-size:10vw">Hello World</h1>
+
+    <h2>Media Queries</h2>
+    <div class="left">
+        <p>Left Menu</p>
+    </div>
+    <div class="main">
+        <p>Main Content</p>
+    </div>
+    <div class="right">
+        <p>Right Menu</p>
+    </div>
+    
+</body>
+</html>

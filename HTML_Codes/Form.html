@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forms</title>
+</head>
+<body>
+    <form action="/actio_page.php" method="get">
+        <!--fieldset is used to group related data in form. Legend will give the caption to fieldset-->
+    <fieldset>
+        <legend>Personal Details :</legend>
+        <label for="fname">First Name:</label><br>
+        <!--input attributes: readonly,disabled,size,maxlenght,min max,multiple, pattern, required,auofocus-->
+        <input type="text" id="fname" name="fname" value="John" readonly><br>
+        <label for="lname">Last Name:</label><br>
+        <input type="text" id="lname" name="lname"><br>
+        
+    </fieldset>
+
+        <!--Select tag is used to give the drop down list-->
+        <label for="cars">Choose a car:</label>
+        <select id="cars" name="cars" size="2">
+            <option value="volvo">Volvo</option>
+            <option value="Audi">Audi</option>
+            <option value="saab">Saab</option>
+        </select><br>
+
+        <textarea name="message" rows="10" cols="10">
+            Write your message here
+        </textarea><br>
+
+        <button type="button" onclick="alert('Hello...')">Click Me</button><br>
+
+        <!--datalist will specify the list of pre defined options-->
+        <input list="browsers">
+        <datalist id="browsers">
+            <option value="Edge">
+            <option value="Firefox">
+            <option value="Chrome">
+            <option value="Opera">
+            <option value="Safari">
+        </datalist><br>
+
+
+        <input type="submit" value="Submit">
+    </form>
+    
+</body>
+</html>
