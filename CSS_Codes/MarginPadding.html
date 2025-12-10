@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Margin and Padding</title>
+    <style>
+        .margin_demo{
+            border: 2px solid blue;
+            margin-top: 100px;
+            margin-right: 100px;
+            margin-bottom: 150px;
+            margin-left: 80px;
+        }
+        p{
+            margin:25px 50px 75px 100px;
+        }
+        h2{
+            margin:auto;
+            width:100px;
+            border:1px solid black;
+        }
+        .padding_demo{
+            padding:40px;
+            width:300px;
+            box-sizing: border-box;
+            border: 1px double red;
+        }
+    </style>
+</head>
+<body>
+    <!--Margin is the space around the elements-->
+    <div class="margin_demo">This div element has a top margin of 100px, a right margin of 150px, a bottom margin of 100px, and a left margin of 80px.</div>
+    <p>This is the margin through short hand property</p>
+    <h2>This is the margin with auto value</h2>
+
+    <!--Padding is the space around the elements content-->
+    <div class="padding_demo">This is the content where padding is appplied</div>
+</body>
+</html>

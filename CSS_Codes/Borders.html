@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Borders</title>
+    <style>
+        .dotted{
+            border-style: dotted;
+            border-width: 5px;
+            border-color: brown;
+
+        }
+        .dashed{
+            border-style: dashed;
+            border-width: medium;
+            border-color: blue green red yellow;
+        }
+        .solid{
+            border-style: solid;
+            border-width: 10px 5px 10px 5px; /* specific side width*/
+            border-radius: 10px;
+        }
+        .double{
+            border-top-style: solid;
+            border-style:double;
+        }
+
+    </style>
+</head>
+<body>
+    <p class="dotted">A dotted border.</p>
+    <p class="dashed">A dashed border.</p>
+    <p class="solid">A solid border.</p>
+    <p class="double">A double border.</p>
+    <p style="border:3px groove cyan;">A groove border.</p>
+    <p style="border-style: ridge;"></p>A ridge border.</p>
+    <p style="border-style: inset;">An inset border.</p>
+    <p style="border-style: outset;">An outset border.</p>
+    <p style="border-style: none;">No border.</p>
+    <p style="border-style: hidden;">A hidden border.</p>
+    <p style="border-style: dotted dashed double solid;">A mixed border.</p>
+
+</body>
+</html>
