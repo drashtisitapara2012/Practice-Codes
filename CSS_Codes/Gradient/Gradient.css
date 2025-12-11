@@ -1,0 +1,20 @@
+#grad1{
+    height: 200px;
+    background-image: linear-gradient(to top,pink,lightsteelblue);
+}
+#grad2{
+    height: 200px;
+    background-image: linear-gradient(to bottom,pink,lightsteelblue);
+}
+#grad3{
+    height: 200px;
+    background-image: linear-gradient(to right,pink,lightsteelblue);
+}
+#grad4 {
+    height: 150px;
+    width: 200px;
+    background-image: radial-gradient(red, yellow, green);
+}
+#grad5 {
+    background-image: conic-gradient(red, yellow, green, blue, black);
+}

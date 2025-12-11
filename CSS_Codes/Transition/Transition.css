@@ -1,0 +1,18 @@
+div {
+    width: 100px;
+    height: 100px;
+    background-color:cornflowerblue;
+    transition: width 2s;
+}
+div:hover {
+    width: 300px;
+}
+
+#div1 {
+    transition-timing-function: linear;
+    transition-delay: 1s;
+}
+#div2 {transition-timing-function: ease;}
+#div3 {transition-timing-function: ease-in;}
+#div4 {transition-timing-function: ease-out;}
+#div5 {transition-timing-function: ease-in-out;}

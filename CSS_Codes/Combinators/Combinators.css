@@ -1,0 +1,13 @@
+ /*  
+ div p{
+    background-color: bisque;
+ }
+div > p{
+    background-color: pink;
+}  
+div + p{
+    background-color: yellow;
+}   */
+div ~ p{
+    background-color: aquamarine;
+}

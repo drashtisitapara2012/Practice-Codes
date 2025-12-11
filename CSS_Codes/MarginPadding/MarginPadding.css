@@ -1,0 +1,21 @@
+.margin_demo{
+    border: 2px solid blue;
+    margin-top: 100px;
+    margin-right: 100px;
+    margin-bottom: 150px;
+    margin-left: 80px;
+}
+p{
+    margin:25px 50px 75px 100px;
+}
+h2{
+    margin:auto;
+    width:100px;
+    border:1px solid black;
+}
+.padding_demo{
+    padding:40px;
+    width:300px;
+    box-sizing: border-box;
+    border: 1px double red;
+}

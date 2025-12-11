@@ -1,0 +1,44 @@
+:root{
+    --primary-bg-color:#1e90ff;
+    --primary-color:#ffffff;
+}
+body{
+    background-color: var(--primary-bg-color);
+}
+.container{
+    --fontsize:20px;
+    color:var(--primary-bg-color);
+    background-color: var(--primary-color);
+    padding: 15px;
+}
+.container h2{
+    border-bottom: 2px solid var(--primary-bg-color);
+}
+.container .note{
+    --note-border-color:red; /* Here a new local variable is declared and used*/
+    border: 1px solid var(--note-border-color);
+    padding: 10px;
+}
+@media screen and (min-width:450px){
+    .container{
+        --fontsize:40px;
+    }
+}
+
+@property --my-bg-color{
+    syntax:"<color>";
+    inherits: true;
+    initial-value: lightgray;
+}
+@property --my-txt-color{
+    syntax: "<color>";
+    inherits: true;
+    initial-value: darkblue;
+}
+.propertyRule{
+    width: 300px;
+    height: 150px;
+    padding: 15px;
+    background-color: var(--my-bg-color);
+    color: var(--my-txt-color);  
+}

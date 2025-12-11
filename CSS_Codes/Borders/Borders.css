@@ -1,0 +1,20 @@
+ .dotted{
+            border-style: dotted;
+            border-width: 5px;
+            border-color: brown;
+
+        }
+        .dashed{
+            border-style: dashed;
+            border-width: medium;
+            border-color: blue green red yellow;
+        }
+        .solid{
+            border-style: solid;
+            border-width: 10px 5px 10px 5px; /* specific side width*/
+            border-radius: 10px;
+        }
+        .double{
+            border-top-style: solid;
+            border-style:double;
+        }

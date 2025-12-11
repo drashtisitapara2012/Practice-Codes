@@ -1,0 +1,18 @@
+#img1{
+    filter: blur(6px);
+}
+#img2{
+    filter:brightness(110%);
+}
+#img3{
+    filter:contrast(50%);
+}
+#img4{
+    filter:drop-shadow(8px 8px 10px black);
+}
+#img5 {
+    filter: invert(0.3);
+}
+#img6 {
+    filter: saturate(60%);
+}

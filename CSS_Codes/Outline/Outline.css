@@ -1,0 +1,16 @@
+p{
+    outline-color:darkcyan;
+    padding: 5px;
+}
+.dotted {outline-style: dotted;}
+.dashed {outline-style: dashed;}
+.solid {
+    outline-style: solid;
+    outline-width: 10px;
+    outline-offset: 15px;
+}
+.double {outline-style: double;}
+.groove {outline: 7px groove red}
+.ridge {outline-style: ridge;}
+.inset {outline-style: inset;}
+.outset {outline-style: outset;}

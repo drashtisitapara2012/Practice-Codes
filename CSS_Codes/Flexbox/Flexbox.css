@@ -1,0 +1,28 @@
+.container{
+    display:flex;
+    background-color: lightskyblue;
+    flex-direction: row; /*row, column, row reverse, column reverse*/
+    flex-wrap: wrap; /* wrap, nowrap, wrap-reverse */ 
+    /*flex-flow: row wrap;   Thsi is for both direction and wrap */
+    justify-content: fles-end; /*center, flex-start, flex-end, space-around, space-between, space-evenly*/
+    align-items: flex-start; /* center, flex-start, flex-end, stretch, baseline, normal*/
+    align-content: center;
+}
+
+.container div{
+    background-color: #f1f1f1;
+    margin: 10px;
+    padding: 20px;
+    font-size: 30px;
+}
+
+.container div:nth-of-type(3){
+    flex-grow: 3;
+}
+.container div:nth-of-type(4){
+    flex-shrink: 3;
+}
+.container div:nth-of-type(2){
+    flex-basis: 250px;
+    align-self: center;
+}

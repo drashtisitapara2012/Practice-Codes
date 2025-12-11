@@ -1,0 +1,36 @@
+div:nth-of-type(1){
+    background-color: coral;
+    width: 200px;
+    height: 65px;
+    border: 1px solid;
+    overflow: visible;
+}
+div:nth-of-type(2){
+    background-color: coral;
+    width: 200px;
+    height: 65px;
+    border: 1px solid;
+    overflow: hidden;
+}
+div:nth-of-type(3){
+    background-color: coral;
+    width: 200px;
+     height: 65px;
+    border: 1px solid;
+    overflow:scroll;
+}
+div:nth-of-type(4){
+    background-color: coral;
+    width: 200px;
+    height: 65px;
+    border: 1px solid;
+    overflow: auto;
+}
+div:nth-of-type(5){
+    background-color: coral;
+    width: 200px;
+    height: 65px;
+    border: 1px solid;
+    overflow-x:hidden;
+    overflow-y: scroll;
+}

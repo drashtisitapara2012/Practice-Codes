@@ -1,0 +1,16 @@
+div {
+    width: 150px;
+    height: 150px;
+    background-color: yellow;
+    border: 1px solid black;
+    transform: translate(50px,100px);
+}
+#rotateDiv {
+    transform: rotate(20deg);
+}
+#scaleXDiv{
+    transform: scaleX(2);
+}
+#skewXDiv {
+    transform: skewX(20deg);
+}

@@ -1,0 +1,12 @@
+.newspaper{
+    column-count: 3;
+    column-gap: 40px;
+    column-rule-style: double;
+    column-rule-width: 1px;
+    column-rule-color: lightsalmon;
+    column-width: 100px;
+}
+h1{
+    column-span:all;
+    text-align: center;
+}

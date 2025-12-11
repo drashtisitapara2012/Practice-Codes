@@ -1,0 +1,41 @@
+p:nth-of-type(1){
+            color: darkslateblue;
+            background-color: bisque;
+            text-align: center;
+            text-align-last: justify;
+        }
+        h1{
+            text-decoration-line: overline underline;
+            text-decoration-color: indianred;
+            text-decoration-style: wavy;
+            text-decoration-thickness: 2px;
+
+        }
+        h2:nth-of-type(2){    /* this is to give property to 2nd h2 tag*/
+            text-decoration: line-through;
+        }
+        h2{
+            direction: rtl;
+        }
+        h3{
+            text-decoration: underline;
+            text-decoration-style: double;
+            text-transform: uppercase;
+        }
+        p:nth-of-type(2){
+            text-indent: 50px;
+            letter-spacing: 5px;
+            line-height: 1.8;
+            word-spacing: 5px;
+            white-space: nowrap;
+            text-shadow: 2px 2px 5px red;
+        }
+        .test1 {
+            width: 150px; 
+            border: 1px solid;
+            padding: 8px;    
+            word-break: break-all; /* word-break: normal,break-all*/
+        }
+        .test2 {
+            writing-mode: vertical-rl; /* write-mode: horizontal-tb,vertical-rl*/
+        }
