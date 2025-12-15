@@ -1,0 +1,93 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+.main{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: space-between; 
+    align-items: stretch; 
+    width: 100%;
+    padding: 30px;
+    box-sizing: border-box;
+}
+h1{
+    font-size: 40px;
+    margin-bottom: 20px;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+p{
+    font-size: 20px;
+    margin-bottom: 40px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.left-section{
+    padding: 70px;
+    text-align: left;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+.button{
+    background-color: black;
+    padding: 5px;
+    border-radius: 12px;
+    color: white;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    width: fit-content;
+}
+.right-section{
+    display: grid;
+    grid-template-rows: auto auto;
+    gap: 20px;
+}
+.topRow{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto 1fr;
+    height: 100%;
+    gap: 20px;
+}
+.topRow div:nth-of-type(1){
+    background-color:#ffd633;
+}
+.topRow div:nth-of-type(2){
+    background-color: #ffe066;
+}
+.topRow div:nth-of-type(3){
+    background-color: #ffeb99;
+}
+.bottomRow{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 20px;
+
+}
+.bottomRow div:nth-of-type(1){
+    background-color: #fff0b6;
+}
+.bottomRow div:nth-of-type(2){
+    background-color: #ffffff;
+}
+.card{
+    border-radius: 12px;
+    padding:30px;
+    border-radius: 12px;
+    border:1px solid #eee;
+    text-align: left;
+    height: 100%;
+    min-height: 0;
+    border-color: black;
+}
+
+
+
+@media (max-width: 600px) {
+    .main{
+        grid-template-columns: 1fr;
+    }
+}
