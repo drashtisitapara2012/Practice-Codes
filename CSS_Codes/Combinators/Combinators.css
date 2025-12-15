@@ -1,4 +1,7 @@
- /*  
+ .card >h2 + p{
+    background-color: lightblue;
+ }
+ /* 
  div p{
     background-color: bisque;
  }
@@ -7,7 +10,7 @@ div > p{
 }  
 div + p{
     background-color: yellow;
-}   */
+}   
 div ~ p{
     background-color: aquamarine;
-}
+}*/
