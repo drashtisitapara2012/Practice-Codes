@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keyboard Event</title>
+</head>
+
+<body>
+    <h2>The keydown Event</h2>
+
+    <input id="press" type="text" placeholder="Press a key here!">
+    <p id="demo"></p>
+
+    <input id="in01" type="text" placeholder="Press Enter">
+    <p id="demo1"></p>
+
+    <script>
+        const press = document.getElementById("press");
+        press.addEventListener("keydown", function (event) {
+            document.getElementById("demo").innerHTML = "Key Pressed: " + event.key;
+        });
+        press.addEventListener("keyup", function (event) {
+            document.getElementById("demo").innerHTML = "Key Released: " + event.key;
+        });
+
+        //event.code is used to detect specific key like Enter, Shift etc. it will give the key code like keyZ
+        const in01 = document.getElementById("in01");
+        in01.addEventListener("keydown", function (event) {
+            if (event.code === "Enter") {
+                document.getElementById("demo1").innerHTML = "You pressed Enter!";
+            }
+        });
+    </script>
+</body>
+
+</html>

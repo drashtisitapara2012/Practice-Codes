@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timing Event </title>
+</head>
+
+<body>
+    <button id="btn">Start</button>
+    <p id="demo"></p><br>
+
+    <button id="start">Start Counter</button>
+    <button id="stop">Stop Counter</button>
+    <p id="counter">0</p>
+
+    <script>
+        //setTimeout() method is used to execute a function after a specified time duration (it will execute only once)
+        const startBtn = document.getElementById("btn");
+        startBtn.addEventListener("click", function () {
+            setTimeout(showMsg, 2000);
+        });
+        function showMsg() {
+            document.getElementById("demo").innerHTML = "2 seconds have passed!";
+        }
+
+        //setInterval() method is used to execute a function repeatedly at specified time intervals
+        let count = 0;
+        let myInterval;
+        const startCounterBtn = document.getElementById("start");
+        const stopCounterBtn = document.getElementById("stop");
+        startCounterBtn.addEventListener("click", function () {
+            myInterval = setInterval(counter, 1000);
+        });
+        stopCounterBtn.addEventListener("click", function () {
+            clearInterval(myInterval);
+        });
+        function counter() {
+            count++;
+            document.getElementById("counter").innerHTML = count;
+        }
+    </script>
+</body>
+
+</html>
