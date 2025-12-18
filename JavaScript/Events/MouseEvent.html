@@ -13,29 +13,35 @@
     <div id="box" style="width:200px;height:100px;padding:16px;border:1px solid #000;">
         Move mouse over this box!
     </div>
-     <div id="box1" style="width:200px;height:100px;padding:16px;border:1px solid #000;">
+    <div id="box1" style="width:200px;height:100px;padding:16px;border:1px solid #000;">
         Move mouse over this box to find coordinates!
     </div>
+
     <script>
-        const box=document.getElementById("box");
-        box.addEventListener("mouseover",function(){
-            box.innerHTML="Mouse Over Event Triggered!";
+        const box = document.getElementById("box");
+        box.addEventListener("mouseover", function () {  //mouseover fires when the mouse enters an element or its children
+            box.innerHTML = "Mouse Over Event Triggered!";
         });
-        box.addEventListener("mouseout",function(){
-            box.innerHTML="Mouse is out of this box!";
+
+        box.addEventListener("mouseenter", function () { //mouseenter only fires when the mouse enters the element
+            box.style.backgroundColor = "lightblue";
         });
-        box.addEventListener("mouseup",function(){
-            box.innerHTML="Mouse Up Event Triggered!";
+
+        box.addEventListener("mouseout", function () {
+            box.innerHTML = "Mouse is out of this box!";
         });
-        box.addEventListener("mousedown",function(){
-            box.innerHTML="Mouse Down Event Triggered!";
+        box.addEventListener("mouseup", function () {
+            box.innerHTML = "Mouse Up Event Triggered!";
         });
-        box.addEventListener("dblclick",function(){
-            box.style.backgroundColor="pink";
+        box.addEventListener("mousedown", function () {
+            box.innerHTML = "Mouse Down Event Triggered!";
         });
-        
-        box1.addEventListener("mousemove",function(){
-            document.getElementById("box1").innerHTML="X : "+event.clientX+" Y : "+event.clientY;
+        box.addEventListener("dblclick", function () {
+            box.style.backgroundColor = "pink";
+        });
+
+        box1.addEventListener("mousemove", function () {
+            document.getElementById("box1").innerHTML = "X : " + event.clientX + " Y : " + event.clientY;
         });
 
     </script>
