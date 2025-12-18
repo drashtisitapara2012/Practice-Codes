@@ -38,7 +38,6 @@ for (let i = 1; i < 10; i++) {
 //for...in Loop uesd for working with objects
 const person = { fname: "John", lname: "Doe", age: 25 };
 
-let txt = "";   
 for (let x in person) {
     console.log(x,person[x]);
 }
@@ -50,7 +49,7 @@ numbers.forEach((value, index) => {
   console.log(index, value);
 });
 
-//for...of Loop used for working with iterable objects like arrays, strings, maps, sets etc.
+//for...of Loop used for working with iterable objects like arrays, strings, maps, sets etc. gives full control to iterate over data can user break and continue statements
 const colors = ["Red", "Green", "Blue"];
 
 for (let color of colors) {

@@ -9,4 +9,9 @@ console.log(Math.abs(-7.25));
 console.log(Math.min(0, 150, 30, 20, -8, -200)); 
 console.log(Math.max(0, 150, 30, 20, -8, -200)); 
 console.log(Math.random()); 
+<<<<<<< HEAD
 console.log(Math.floor(Math.random() * 10) + 1);  //Random integer between 1 and 10
+=======
+
+console.log(Math.floor(Math.random() * 10) + 1);  //Random integer between 1 and 10
+>>>>>>> d3bff5b (added async and dom)

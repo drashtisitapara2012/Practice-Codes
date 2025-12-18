@@ -12,7 +12,7 @@ console.log(d.getMinutes());
 console.log(d.getSeconds()); 
 console.log(d.getTime());  //time in milliseconds since January 1, 1970 
 
-const dt = new Date(2025,11,20,12,24,3);
+const dt = new Date(2025,11,21,12,24,3);
 console.log(dt.toString()); 
 console.log(dt.setFullYear(2024));
 console.log(dt.setMonth(5));
