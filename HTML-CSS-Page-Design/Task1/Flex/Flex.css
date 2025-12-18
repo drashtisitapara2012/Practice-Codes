@@ -19,7 +19,6 @@
     border-radius: 12px;
     border: 1px solid #eee;
     text-align: center;
-
 }
 
 .card img {
@@ -43,9 +42,10 @@
     font-size: 15px;
 }
 
-.yellow {
+.yellowBox {
     display: flex;
     padding: 40px;
+    gap:30px;
     border-radius: 12px;
     flex-direction: row;
     align-items: center;
@@ -78,4 +78,5 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    flex:1;
 }
