@@ -88,16 +88,16 @@ user.sayName();   //this refers to user object
 
 //call() Method : With call(), an object can use a method belonging to another object.
 const person = {
-  fullName: function() {
+  fullName: function () {
     return this.firstName + " " + this.lastName;
   }
 }
 const person1 = {
-  firstName:"John",
+  firstName: "John",
   lastName: "Doe"
 }
 const person2 = {
-  firstName:"Mary",
+  firstName: "Mary",
   lastName: "Doe"
 }
 console.log(person.fullName.call(person1));
@@ -108,13 +108,13 @@ console.log(person.fullName.call(person1));
 
 //apply() Method 
 const people = {
-  fullName: function(city, country) {
+  fullName: function (city, country) {
     return this.firstName + " " + this.lastName + "," + city + "," + country;
   }
 }
 
 const people1 = {
-  firstName:"John",
+  firstName: "John",
   lastName: "Doe"
 }
 
@@ -125,7 +125,7 @@ console.log(people.fullName.apply(people1, ["Oslo", "Norway"]));
 //bind() Method : With the bind() method, an object can borrow a method from another object.
 // The bind() method returns a new function, so you can store it in a variable.
 const per = {
-  firstName:"John",
+  firstName: "John",
   lastName: "Doe",
   fullName: function () {
     return this.firstName + " " + this.lastName;
@@ -133,7 +133,7 @@ const per = {
 }
 
 const member = {
-  firstName:"Hege",
+  firstName: "Hege",
   lastName: "Nilsen",
 }
 let fullName = per.fullName.bind(member);

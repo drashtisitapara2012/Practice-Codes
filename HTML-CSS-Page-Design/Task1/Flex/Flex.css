@@ -42,7 +42,7 @@
     padding: 40px;
     gap:30px;
     border-radius: 12px;
-    flex-direction: row;
+    flex-direction:row;
     align-items: center;
     background: #f9d438;
 }
