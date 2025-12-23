@@ -12,6 +12,7 @@ x=5; //let cannot be redeclared but can be reassigned
 console.log(x);
 
 //var can be hoisted meaning it can be used before declaration
+//only var declaration is hoisted not initialization
 b="I am Hoisted";
 console.log(b);
 var b;

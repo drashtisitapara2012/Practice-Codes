@@ -14,3 +14,6 @@ div + p{
 div ~ p{
     background-color: aquamarine;
 }*/
+.table1>div div:first-child{
+    color: blue;
+}
