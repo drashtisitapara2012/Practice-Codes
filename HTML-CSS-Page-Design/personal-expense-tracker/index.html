@@ -16,12 +16,11 @@
   <div class="table-section">
     <div class="top-bar">
       <i class="fas fa-plus add-icon" title="Add Expense" onclick="redirectToAddPage()"></i>
-      <span id="totalExpense" class="total-expense">
-        Total Expense: ₹0
-      </span>
+      
       <div class="search-wrapper">
         <i class="fas fa-search search-icon" id="searchToggle"></i>
-        <input type="text" id="search" placeholder="Search by Title or Category" />
+        <input type="text" id="search" placeholder="Search by Title or Category" /> 
+        <span class="search-cancel" id="searchCancel">&times;</span>        
       </div>
     </div>
 
@@ -36,9 +35,12 @@
         </tr>
       </thead>
       <tbody>
-
+        
       </tbody>
     </table><br><br>
+    <span id="totalExpense" class="total-expense">
+        Total Expense: ₹0
+      </span>
     <div class="chart-container">
       <h3>Expenses by Category</h3>
       <canvas id="categoryChart"></canvas>
