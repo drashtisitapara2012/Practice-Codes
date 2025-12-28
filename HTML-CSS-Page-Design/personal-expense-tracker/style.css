@@ -36,6 +36,23 @@ button + br + #search {
   max-width: 420px;
   width: 100%;
 }
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 420px;
+  margin: 0 auto 20px;
+}
+
+.close-icon {
+  font-size: 22px;
+  cursor: pointer;
+  color: #444;
+}
+
+.close-icon:hover {
+  color: #ef4444;
+}
 
 #search {
   padding: 10px;
@@ -48,7 +65,18 @@ button + br + #search {
   outline: none;
   border-color: #4f46e5;
 }
+.search-cancel {
+  position: absolute;
+  right: 8px;
+  font-size: 20px;
+  cursor: pointer;
+  display: none;
+  color: #999;
+}
 
+.search-cancel:hover {
+  color: #333;
+}
 #expenseTable {
   width: 100%;
   max-width: 1000px;
@@ -191,6 +219,7 @@ button + br + #search {
   font-weight: 600;
   font-size: 18px;
   color: #333;
+  text-align: center;
 }
 
 .chart-container {
