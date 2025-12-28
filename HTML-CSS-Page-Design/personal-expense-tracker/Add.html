@@ -5,11 +5,15 @@
   <meta charset="UTF-8">
   <title>Expense Tracker</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 </head>
 
 <body>
 
-  <h1>Add Expense</h1>
+  <div class="form-header">
+    <h1 id="formTitle">Add Expense</h1>
+    <i class="fa-solid fa-xmark close-icon" title="Cancel"></i>
+  </div>
   <form id="expenseForm">
 
     <label>Title</label><br>
@@ -19,18 +23,28 @@
     <input type="number" id="amount" placeholder="Amount" required>
 
     <label>Category</label><br>
-    <select id="category">
-      <option value="bill"> Bill</option>
-      <option value="food">Food</option>
-      <option value="shopping">Shopping</option>
-      <option value="travel">Travel</option>
-      <option value="other">Other</option>
-    </select>
+
+<select id="category">
+  <option value="">Select category</option>
+  <option value="bill">Bill</option>
+  <option value="food">Food</option>
+  <option value="shopping">Shopping</option>
+  <option value="travel">Travel</option>
+  <option value="custom">Other (Custom)</option>
+</select>
+
+<input
+  type="text"
+  id="customCategory"
+  placeholder="Enter custom category"
+  style="display:none; margin-top:8px;"
+/>
+
 
     <label>Date</label><br>
-    <input type="date" id="date" required>
+    <input type="date" id="date" required><br><br>
 
-    <button type="submit" >Add Expense</button><br>
+    <button type="submit" >Add / Update Expense</button><br>
 
     <script src="app.js" defer></script>
 
