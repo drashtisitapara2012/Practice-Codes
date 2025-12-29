@@ -36,6 +36,17 @@ var searchCancel = document.getElementById("searchCancel");
 var editId = localStorage.getItem("editExpenseId");
 var formTitle = document.getElementById("formTitle");
 var closeIcon = document.querySelector(".close-icon");
+var fromDateInput = document.getElementById("fromDate");
+if (fromDateInput) {
+    var today = new Date().toISOString().split("T")[0];
+    fromDateInput.max = today;
+}
+var toDateInput = document.getElementById("toDate");
+if (toDateInput) {
+    var today = new Date().toISOString().split("T")[0];
+    toDateInput.max = today;
+}
+var applyDateFilterBtn = document.getElementById("applyDateFilter");
 //close icon
 if (closeIcon) {
     closeIcon.addEventListener("click", function () {
@@ -87,6 +98,27 @@ if (searchCancel && searchInput && searchWrapper) {
         renderExpenses(expenses);
         updateTotalExpense(expenses);
         renderCategoryChart(expenses);
+    });
+}
+//Date filter
+if (applyDateFilterBtn && fromDateInput && toDateInput) {
+    applyDateFilterBtn.addEventListener("click", function () {
+        var fromDate = fromDateInput.value;
+        var toDate = toDateInput.value;
+        if (!fromDate || !toDate) {
+            alert("Please select both dates");
+            return;
+        }
+        if (fromDate > toDate) {
+            alert("From date cannot be after To date");
+            return;
+        }
+        var filtered = expenses.filter(function (exp) {
+            return exp.date >= fromDate && exp.date <= toDate;
+        });
+        renderExpenses(filtered);
+        updateTotalExpense(filtered);
+        renderCategoryChart(filtered);
     });
 }
 //Render Expenses

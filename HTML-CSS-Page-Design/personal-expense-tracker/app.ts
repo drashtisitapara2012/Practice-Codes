@@ -25,7 +25,6 @@ const amountInput = document.getElementById("amount") as HTMLInputElement | null
 const categoryInput = document.getElementById("category") as HTMLSelectElement | null;
 const customCategoryInput = document.getElementById("customCategory") as HTMLInputElement | null;
 const dateInput = document.getElementById("date") as HTMLInputElement | null;
-
 if (dateInput) {
     const today = new Date().toISOString().split("T")[0];
     dateInput.max = today;
@@ -41,6 +40,20 @@ const searchCancel = document.getElementById("searchCancel") as HTMLElement | nu
 const editId = localStorage.getItem("editExpenseId");
 const formTitle = document.getElementById("formTitle");
 const closeIcon = document.querySelector(".close-icon") as HTMLElement | null;
+const fromDateInput = document.getElementById("fromDate") as HTMLInputElement | null;
+if (fromDateInput) {
+    const today = new Date().toISOString().split("T")[0];
+    fromDateInput.max = today;
+}
+
+const toDateInput = document.getElementById("toDate") as HTMLInputElement | null;
+if (toDateInput) {
+    const today = new Date().toISOString().split("T")[0];
+    toDateInput.max = today;
+}
+
+const applyDateFilterBtn = document.getElementById("applyDateFilter") as HTMLButtonElement | null;
+
 
 //close icon
 if (closeIcon) {
@@ -103,6 +116,34 @@ if (searchCancel && searchInput && searchWrapper) {
         renderCategoryChart(expenses);
     });
 }
+
+//Date filter
+if (applyDateFilterBtn && fromDateInput && toDateInput) {
+  applyDateFilterBtn.addEventListener("click", () => {
+    const fromDate = fromDateInput.value;
+    const toDate = toDateInput.value;
+
+    if (!fromDate || !toDate) {
+      alert("Please select both dates");
+      return;
+    }
+
+    if (fromDate > toDate) {
+      alert("From date cannot be after To date");
+      return;
+    }
+
+    const filtered = expenses.filter(exp =>
+      exp.date >= fromDate && exp.date <= toDate
+    );
+
+    renderExpenses(filtered);
+    updateTotalExpense(filtered);
+    renderCategoryChart(filtered);
+
+  });
+}
+
 
 //Render Expenses
 function renderExpenses(list: Expense[]) {
@@ -255,7 +296,7 @@ if (form && titleInput && amountInput && categoryInput && dateInput) {
 }
 
 //Chart
-function getCategoryData(list: Expense[]) {
+function getCategoryData(list: Expense[]) {    //prepares data for the chart
     const totals: Record<string, number> = {};
     list.forEach(exp => {
         totals[exp.category] = (totals[exp.category] || 0) + exp.amount;
@@ -267,7 +308,7 @@ function getCategoryData(list: Expense[]) {
     };
 }
 
-function renderCategoryChart(list: Expense[]) {
+function renderCategoryChart(list: Expense[]) {   // draws the chart
     const canvas = document.getElementById("categoryChart") as HTMLCanvasElement | null;
     if (!canvas) return;
 

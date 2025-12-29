@@ -1,4 +1,4 @@
-//we can use interface for objects. we can extend interface as per need
+//we can use interface for objects. we can extend interface as per need. interface support declaration merging means if we decalre 2 interface with same name it will merge both
 // interface Rectangle {
 //   height1: number,
 //   width1: number
@@ -17,7 +17,7 @@
 // console.log(coloredRectangle);
 
 
-//type for unions,intersections and primitives
+//type for unions,intersections and primitives type does not support 2 types with same name
 type FirstType={
   name:string;
   age:number;

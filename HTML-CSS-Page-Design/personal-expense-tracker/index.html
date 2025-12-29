@@ -17,30 +17,36 @@
     <div class="top-bar">
       <i class="fas fa-plus add-icon" title="Add Expense" onclick="redirectToAddPage()"></i>
       
+      <input type="date" id="fromDate" />
+      <input type="date" id="toDate" />
+      <button id="applyDateFilter">Filter</button>
+
       <div class="search-wrapper">
         <i class="fas fa-search search-icon" id="searchToggle"></i>
-        <input type="text" id="search" placeholder="Search by Title or Category" /> 
-        <span class="search-cancel" id="searchCancel">&times;</span>        
+        <input type="text" id="search" placeholder="Search by Title or Category" />
+        <span class="search-cancel" id="searchCancel">&times;</span>
       </div>
     </div>
 
-    <table id="expenseTable">
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Amount</th>
-          <th>Category</th>
-          <th>Date</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        
-      </tbody>
-    </table><br><br>
+    <div class="table-wrapper">
+      <table id="expenseTable">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Amount</th>
+            <th>Category</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+      </table><br><br>
+    </div>
     <span id="totalExpense" class="total-expense">
-        Total Expense: ₹0
-      </span>
+      Total Expense: ₹0
+    </span>
     <div class="chart-container">
       <h3>Expenses by Category</h3>
       <canvas id="categoryChart"></canvas>
@@ -53,4 +59,3 @@
 </body>
 
 </html>
-

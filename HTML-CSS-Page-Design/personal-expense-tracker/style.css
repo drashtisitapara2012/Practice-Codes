@@ -240,6 +240,10 @@ button + br + #search {
   max-width: 1000px;
   margin: auto;
 }
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
 
 @media (max-width: 768px) {
   body {
@@ -249,5 +253,23 @@ button + br + #search {
   #expenseTable {
     font-size: 13px;
   }
-
 }
+
+@media (max-width: 480px) {
+  body {
+    padding: 12px;
+  }
+
+  #expenseTable {
+    font-size: 12px;
+  }
+
+  .table-wrapper {
+    overflow-x: auto;
+  }
+
+  .actions i {
+    font-size: 14px;
+  }
+}
+
