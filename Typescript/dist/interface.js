@@ -1,7 +1,13 @@
 "use strict";
-;
-const rec = {
-    height1: 20,
-    width1: 10
+//we can use interface for objects
+// interface Rectangle {
+//   height1: number,
+//   width1: number
+// }
+const person2 = {
+    name: "john",
+    age: 20,
+    address: "Ahmedabad",
+    phone: "123456783",
 };
-console.log(rec);
+console.log(person2);

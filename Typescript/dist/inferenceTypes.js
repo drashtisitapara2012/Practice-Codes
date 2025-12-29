@@ -1,15 +1,12 @@
 "use strict";
 // Function Return Type Inference
 // In TypeScript, return types would be inferred automatically
-// Function with string return type
 function greet(name) {
     return `Hello, ${name}!`;
 }
-// Function with number return type
 function add1(a, b) {
     return a + b;
 }
-// Function that returns different types based on input
 function getValue(key) {
     if (key === "name") {
         return "Alice";
@@ -18,7 +15,6 @@ function getValue(key) {
         return 42;
     }
 }
-// Using the functions and showing their return types
 console.log("greet function:");
 const greeting = greet("Bob");
 console.log("Return value:", greeting);
@@ -39,4 +35,3 @@ const value3 = getValue("age");
 console.log("Return value:", value3);
 console.log("Return type:", typeof value3);
 console.log("");
-console.log("In TypeScript, getValue would have a return type of 'string | number'");
