@@ -147,7 +147,7 @@ if (form && titleInput && amountInput && categoryInput && dateInput) {
             amountInput.value = exp.amount.toString();
             dateInput.value = exp.date;
             var predefined = ["bill", "food", "shopping", "travel"];
-            if (predefined.includes(exp.category)) {
+            if (predefined.indexOf(exp.category) !== -1) {
                 categoryInput.value = exp.category;
             }
             else {

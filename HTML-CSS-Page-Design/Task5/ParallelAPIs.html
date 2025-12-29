@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Parallel API Calls</title>
+
+</head>
+
+<body>
+
+  <h2>Parallel API Calls Example</h2>
+
+  <button onclick="loadDataStopOnFail()">Stop on First Failure</button>
+  <button onclick="loadDataRunAll()">Run All APIs</button>
+
+  <h3>Result:</h3>
+  <pre id="output">Click a button to load data</pre>
+
+  <script>
+    const output = document.getElementById("output");
+
+    async function fetchJson(url) {
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        throw new Error(`API Failed (${response.status}) → ${url}`);
+      }
+
+      return response.json();
+    }
+
+  async function loadDataStopOnFail() {
+
+  const urls = [
+    "https://jsonplaceholder.typicode.com/posts/1",
+    "https://jsonplaceholder.typicode.com/posts/2",
+    "https://jsonplaceholder.typicode.com/posts/3",
+    "https://jsonplaceholder.typicode.com/posts/4",
+    "https://jsonplaceholder.typicode.com/posts/5"
+  ];
+
+  const results = {};
+
+  try {
+    for (let i = 0; i < urls.length; i++) {
+      const response = await fetch(urls[i]);
+
+      if (!response.ok) {
+        throw new Error(`API failed at index ${i} (status ${response.status})`);
+      }
+
+      const data = await response.json();
+      results[`api${i + 1}`] = data;
+    }
+
+    output.textContent = JSON.stringify(results, null, 2);
+
+  } catch (error) {
+    output.innerHTML = `<span class="error"> ${error.message}</span>`;
+    console.error("Stopped on failure:", error);
+  }
+}
+
+
+    async function loadDataRunAll() {
+      output.textContent = "Loading...";
+
+      const apiCalls = [
+        fetchJson("https://jsonplaceholder.typicode.com/posts/1"),
+        fetchJson("https://jsonplaceholder.typicode.com/posts/2"),
+        fetchJson("https://jsonplaceholder.typicode.com/posts/3"),
+        fetchJson("https://jsonplaceholder.typicode.com/posts/4"),
+        fetchJson("https://jsonplaceholder.typicode.com/posts/5")
+      ];
+
+      const results = await Promise.allSettled(apiCalls);
+
+      const formattedResults = results.map((result, index) => {
+        return result.status === "fulfilled"
+          ? {
+              api: `API ${index + 1}`,
+              status: "SUCCESS",
+              data: result.value
+            }
+          : {
+              api: `API ${index + 1}`,
+              status: "FAILED",
+              error: result.reason.message
+            };
+      });
+
+      output.textContent = JSON.stringify(formattedResults, null, 2);
+    }
+  </script>
+
+</body>
+</html>

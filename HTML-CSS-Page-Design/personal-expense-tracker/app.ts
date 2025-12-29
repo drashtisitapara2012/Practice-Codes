@@ -187,7 +187,7 @@ if (form && titleInput && amountInput && categoryInput && dateInput) {
 
             const predefined = ["bill", "food", "shopping", "travel"];
 
-            if (predefined.includes(exp.category)) {
+            if (predefined.indexOf(exp.category) !== -1) {
                 categoryInput.value = exp.category;
             } else {
                 categoryInput.value = "custom";
