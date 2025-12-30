@@ -1,0 +1,21 @@
+[2025-12-30T06:14:49.665Z] === Sequential API calls ===
+[2025-12-30T06:14:50.207Z] Success [https://jsonplaceholder.typicode.com/users]
+[2025-12-30T06:14:50.940Z] API Error [https://jsonplaceholder.typicode.com/invalid-url]: 404 Not Found
+[2025-12-30T06:14:52.109Z] Network / Other Error [https://httpstat.us/429]: request to https://httpstat.us/429 failed, reason: socket hang up
+[2025-12-30T06:14:52.936Z] Network / Other Error [https://httpstat.us/500]: request to https://httpstat.us/500 failed, reason: socket hang up
+[2025-12-30T06:14:54.940Z] Timeout Error [https://10.255.255.1]
+[2025-12-30T06:14:54.941Z] === Parallel API calls ===
+[2025-12-30T06:14:55.371Z] Success [https://jsonplaceholder.typicode.com/users]
+[2025-12-30T06:14:55.390Z] API Error [https://jsonplaceholder.typicode.com/invalid-url]: 404 Not Found
+[2025-12-30T06:14:55.880Z] Network / Other Error [https://httpstat.us/500]: request to https://httpstat.us/500 failed, reason: socket hang up
+[2025-12-30T06:14:55.882Z] Network / Other Error [https://httpstat.us/429]: request to https://httpstat.us/429 failed, reason: socket hang up
+[2025-12-30T06:14:56.958Z] Timeout Error [https://10.255.255.1]
+
+[2025-12-30T06:34:21.136Z] === Sequential API calls ===
+[2025-12-30T06:34:21.640Z] API Success [https://jsonplaceholder.typicode.com/users]
+[2025-12-30T06:34:22.091Z] API Success [https://jsonplaceholder.typicode.com/invalid-url]
+[2025-12-30T06:34:25.977Z] RTO Error [https://10.255.255.1]
+[2025-12-30T06:34:25.979Z] === Parallel API calls ===
+[2025-12-30T06:34:26.394Z] API Success [https://jsonplaceholder.typicode.com/users]
+[2025-12-30T06:34:26.409Z] API Success [https://jsonplaceholder.typicode.com/invalid-url]
+[2025-12-30T06:34:27.993Z] RTO Error [https://10.255.255.1]
