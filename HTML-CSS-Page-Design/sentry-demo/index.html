@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script
+  src="https://js.sentry-cdn.com/a1803153b66dedf8ef3b5b9730b93690.min.js"
+  crossorigin="anonymous"
+></script>
+
+</head>
+<body>
+    <button id="test-error">Trigger Test Error</button>
+<script>
+  const button = document.getElementById('test-error');
+  button.addEventListener('click', () => {
+    throw new Error('This is a test error');
+  });
+</script>
+</body>
+</html>

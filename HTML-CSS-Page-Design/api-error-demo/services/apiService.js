@@ -4,9 +4,9 @@ import { log } from "../utils/logger.js";
 export const apis = [
   "https://jsonplaceholder.typicode.com/users",  //valid
   "https://jsonplaceholder.typicode.com/invalid-url",   //404 not found
-  "https://httpstat.us/429",  // too many request
-  "https://httpstat.us/500",  //Internal server errror
-  "https://10.255.255.1"  //RTO
+  "https://httpstat.us/429",  // too many request 429
+  "https://httpstat.us/500",  //Internal server errror 500
+  "https://10.255.255.1"  //RTO 408
 ];
 
 export function fetchWithTimeout(url, options = {}, timeout = 2000) {
@@ -39,7 +39,7 @@ export function fetchWithTimeout(url, options = {}, timeout = 2000) {
 //   }
 // }
 
-//handle only RTO error
+//handle only RTO error. Here the 2nd url is getting executed because fetch will not reject the http errors like 404,429 or 500. it will only reject network level failures or RTO erros. so can use axios to solve this issue
 export async function fetchApi(url) {
   try {
     await fetchWithTimeout(url, {}, 2000);

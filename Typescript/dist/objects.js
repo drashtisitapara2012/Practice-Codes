@@ -21,11 +21,28 @@ var CardinalDirections;
 })(CardinalDirections || (CardinalDirections = {}));
 let currentDirection = CardinalDirections.North;
 console.log(currentDirection);
-function printPersonProperty(person, property) {
-    console.log(`Printing person property ${property}: "${person[property]}"`);
+//keyof is a keyword in TypeScript which is used to extract the key type from an object type.
+// interface Person1 {
+//   name: string;
+//   age: number;
+// }
+// function printPersonProperty(person: Person1, property: keyof Person1) {
+//   console.log(`Printing person property ${property}: "${person[property]}"`);
+// }
+// let person1 = {
+//   name: "Max",
+//   age: 27
+// };
+// printPersonProperty(person1, "name");
+const users = [
+    { id: 1, name: "Drashti", active: true },
+    { id: 2, name: "Amit", active: false }
+];
+// "id" | "name" | "active"
+function getUserValue(userList, index, key) {
+    return userList[index][key];
 }
-let person1 = {
-    name: "Max",
-    age: 27
-};
-printPersonProperty(person1, "name");
+const name1 = getUserValue(users, 0, "name");
+const status1 = getUserValue(users, 1, "active");
+console.log(name1);
+console.log(status1);
