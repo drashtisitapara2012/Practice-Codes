@@ -14,7 +14,7 @@ class Car extends React.Component {
     };
   }
   changeColor=()=>{
-    this.setState({color:"blue"});  //to change the value in teh state object, use this.setState()
+    this.setState({color:"blue"});  //to change the value in the state object, use this.setState()
   }
   render() {
     return (
