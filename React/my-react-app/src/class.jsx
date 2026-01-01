@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
-// The state object is where you store property values that belongs to the component.
+// The state object is where you store property values that belongs to the component. When the state object changes, the component re-renders.
 
 class Car extends React.Component {
   constructor(props) {
