@@ -1,0 +1,50 @@
+<!-- stopPropagation() is needed to prevent parent components from responding to an event when a child component handles it. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Event Propagation Demo</title>
+  <style>
+    #outer {
+      padding: 40px;
+      background-color: lightblue;
+    }
+    #middle {
+      padding: 40px;
+      background-color: lightgreen;
+    }
+    #inner {
+      padding: 10px 20px;
+      background-color: orange;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="outer">
+    Outer Div
+    <div id="middle">
+      Middle Div
+      <button id="inner">Click Me</button>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("outer").addEventListener("click", () => {
+      console.log("Outer div clicked");
+    });
+
+    document.getElementById("middle").addEventListener("click", () => {
+      console.log("Middle div clicked");
+    });
+
+    document.getElementById("inner").addEventListener("click", () => {
+      console.log("Button clicked");
+      event.stopPropagation();  //without this line all the 3 concole will be printed
+    });
+  </script>
+
+</body>
+</html>
