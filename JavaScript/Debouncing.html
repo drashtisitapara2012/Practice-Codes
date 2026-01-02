@@ -1,0 +1,35 @@
+<!-- Debouncing ensures a function runs only after a specified time has passed since the last event. -->
+<!-- search-bar or autosvae we can use debouncing  -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Debounce Example</title>
+</head>
+<body>
+
+<h2>Debouncing Example</h2>
+<input type="text" id="search" placeholder="Type to search..." />
+
+<script>
+  function debounce(func, delay) {
+    let timer;
+
+    return function (...args) {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        func.apply(this, args);
+      }, delay);
+    };
+  }
+
+  const searchHandler = debounce(function (event) {
+    console.log("API Call with value:", event.target.value);
+  }, 500);
+
+  document.getElementById("search").addEventListener("input", searchHandler);
+</script>
+
+</body>
+</html>
+

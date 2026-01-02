@@ -1,0 +1,41 @@
+ <!-- Throttling ensures a function runs at most once in a given time interval, no matter how many times the event occurs. -->
+<!-- scroll or resize event or keypress we can use throttling -->
+ 
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Throttle Example</title>
+  <style>
+    body {
+      height: 2000px;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Throttling Example</h2>
+<p>Scroll down to see throttling in action</p>
+
+<script>
+  function throttle(func, delay) {
+    let lastExecution = 0;
+
+    return function (...args) {
+      const now = Date.now();
+
+      if (now - lastExecution >= delay) {
+        lastExecution = now;
+        func.apply(this, args);
+      }
+    };
+  }
+
+  const scrollHandler = throttle(function () {
+    console.log("Scroll event handled at:", new Date().toLocaleTimeString());
+  }, 1000);
+
+  window.addEventListener("scroll", scrollHandler);
+</script>
+
+</body>
+</html>
