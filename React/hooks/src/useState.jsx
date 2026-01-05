@@ -1,8 +1,9 @@
 import { useState } from "react";
-function StateDemo(){
+function UseStateDemo(){
     const [count,setCount] =useState(0);
     return(
         <div style={{padding : "20px"}}>
+            <h1>useState Demo : </h1>
             <h2>Counter Example</h2>
             <p>Count :{count}</p>
 
@@ -12,4 +13,4 @@ function StateDemo(){
         </div>
     );
 }
-export default StateDemo;
+export default UseStateDemo;
