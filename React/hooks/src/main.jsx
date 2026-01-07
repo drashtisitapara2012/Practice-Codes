@@ -9,6 +9,7 @@ import UseCallbackDemo from './useCallback.jsx'
 import UseMemoDemo from './useMemo.jsx'
 import CustomHooksDemo from './customHooks.jsx'
 import FormDemo from './form.jsx'
+import LargeScreen from './LargeScreen.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -19,7 +20,8 @@ createRoot(document.getElementById('root')).render(
     <Counter/>
     <UseCallbackDemo/>
     <UseMemoDemo/>
-    <CustomHooksDemo/> */}
-    <FormDemo/>
+    <CustomHooksDemo/>
+    <FormDemo/> */}
+    <LargeScreen/>
   </StrictMode>
 )
