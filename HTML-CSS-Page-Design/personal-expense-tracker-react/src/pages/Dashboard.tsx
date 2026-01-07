@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ExpenseChart from "../components/ExpenseChart";
 import type { Expense } from "../types/expense";
+import { getAllExpenses, deleteExpense as deleteFromDb } from "../api/indexedDb";
+
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -9,12 +11,19 @@ export default function Dashboard() {
   const [expenses, setExpenses] = useState<Expense[]>([]);
 
   // Sync expenses from localStorage
-  useEffect(() => {
-    const data = localStorage.getItem("expenses");
-    if (data) {
-      setExpenses(JSON.parse(data));
-    }
-  }, []);
+  // useEffect(() => {
+  //   const data = localStorage.getItem("expenses");
+  //   if (data) {
+  //     setExpenses(JSON.parse(data));
+  //   }
+  // }, []);
+useEffect(() => {
+  const fetchExpenses = async () => {
+    const data = await getAllExpenses();
+    setExpenses(data);
+  };
+  fetchExpenses();
+}, []);
 
   const [searchQuery, setSearchQuery] = useState("");
   const [fromDate, setFromDate] = useState("");
@@ -47,12 +56,17 @@ export default function Dashboard() {
 
   const total = filteredExpenses.reduce((sum, exp) => sum + exp.amount, 0);
 
-  const deleteExpense = (id: number) => {
-    if (!confirm("Are you sure you want to delete this expense?")) return;
-    const updated = expenses.filter((exp) => exp.id !== id);
-    setExpenses(updated);
-    localStorage.setItem("expenses", JSON.stringify(updated));
-  };
+  // const deleteExpense = (id: number) => {
+  //   if (!confirm("Are you sure you want to delete this expense?")) return;
+  //   const updated = expenses.filter((exp) => exp.id !== id);
+  //   setExpenses(updated);
+  //   localStorage.setItem("expenses", JSON.stringify(updated));
+  // };
+const deleteExpense = async (id: number) => {
+  if (!confirm("Are you sure you want to delete this expense?")) return;
+  await deleteFromDb(id);
+  setExpenses(prev => prev.filter(exp => exp.id !== id));
+};
 
   const editExpense = (id: number) => {
     localStorage.setItem("editExpenseId", id.toString());

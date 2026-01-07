@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { Expense } from "../types/expense";
+import { addExpense as addToDb, updateExpense as updateInDb } from "../api/indexedDb";
+
 
 const DEFAULT_CATEGORIES = ["bill", "food", "shopping", "travel"];
 
@@ -105,44 +107,88 @@ export default function AddExpense() {
   };
 
   // ---------------- SUBMIT ----------------
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validate()) return;
+  // const handleSubmit = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   if (!validate()) return;
 
-    const finalCategory =
-      category === "custom"
-        ? normalize(customCategory)
-        : normalize(category);
+  //   const finalCategory =
+  //     category === "custom"
+  //       ? normalize(customCategory)
+  //       : normalize(category);
 
-    // Add custom category to current session list
-    if (!categories.includes(finalCategory)) {
-      setCategories(prev => [...prev, finalCategory]);
-    }
+  //   // Add custom category to current session list
+  //   if (!categories.includes(finalCategory)) {
+  //     setCategories(prev => [...prev, finalCategory]);
+  //   }
 
-    if (editId) {
-      const updated = expenses.map(exp =>
-        exp.id === Number(editId)
-          ? { ...exp, title, amount: Number(amount), category: finalCategory, date }
-          : exp
-      );
-      setExpenses(updated);
-      localStorage.setItem("expenses", JSON.stringify(updated));
-      localStorage.removeItem("editExpenseId");
-    } else {
-      const newExp: Expense = {
-        id: Date.now(),
-        title,
-        amount: Number(amount),
-        category: finalCategory,
-        date,
-      };
-      const updated = [...expenses, newExp];
-      setExpenses(updated);
-      localStorage.setItem("expenses", JSON.stringify(updated));
-    }
+  //   if (editId) {
+  //     const updated = expenses.map(exp =>
+  //       exp.id === Number(editId)
+  //         ? { ...exp, title, amount: Number(amount), category: finalCategory, date }
+  //         : exp
+  //     );
+  //     setExpenses(updated);
+  //     localStorage.setItem("expenses", JSON.stringify(updated));
+  //     localStorage.removeItem("editExpenseId");
+  //   } else {
+  //     const newExp: Expense = {
+  //       id: Date.now(),
+  //       title,
+  //       amount: Number(amount),
+  //       category: finalCategory,
+  //       date,
+  //     };
+  //     const updated = [...expenses, newExp];
+  //     setExpenses(updated);
+  //     localStorage.setItem("expenses", JSON.stringify(updated));
+  //   }
 
-    navigate("/");
-  };
+  //   navigate("/");
+  // };
+  const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  if (!validate()) return;
+
+  const finalCategory =
+    category === "custom"
+      ? normalize(customCategory)
+      : normalize(category);
+
+  // Save custom category (case-insensitive)
+  if (!categories.includes(finalCategory)) {
+    const updatedCategories = [...categories, finalCategory];
+    setCategories(updatedCategories);
+    localStorage.setItem("categories", JSON.stringify(updatedCategories));
+  }
+
+  if (editId) {
+    const updatedExpense = {
+      id: Number(editId),
+      title,
+      amount: Number(amount),
+      category: finalCategory,
+      date,
+    };
+    await updateInDb(updatedExpense);  // <-- await works now
+    setExpenses(prev =>
+      prev.map(exp => (exp.id === Number(editId) ? updatedExpense : exp))
+    );
+    localStorage.removeItem("editExpenseId"); // keep for edit flow
+  } else {
+    const newExp: Expense = {
+      id: Date.now(),
+      title,
+      amount: Number(amount),
+      category: finalCategory,
+      date,
+    };
+    await addToDb(newExp); // <-- await works now
+    setExpenses(prev => [...prev, newExp]);
+  }
+
+  navigate("/");
+};
+
 
   return (
     <div className="table-section">
