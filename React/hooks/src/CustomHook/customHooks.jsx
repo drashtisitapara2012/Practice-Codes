@@ -1,5 +1,5 @@
 import { createRoot } from 'react-dom/client';
-import useFetch from "./useFetch";
+import useFetch from "./CustomHook/useFetch";
 
 function CustomHooksDemo() {
 
