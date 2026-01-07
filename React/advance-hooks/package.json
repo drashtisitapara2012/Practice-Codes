@@ -10,6 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+<<<<<<< HEAD:React/advance-hooks/package.json
+=======
+    "@types/chart.js": "^2.9.41",
+    "chart.js": "^4.5.1",
+    "idb": "^8.0.3",
+>>>>>>> 71ca0b5 (changes done):HTML-CSS-Page-Design/personal-expense-tracker-react/package.json
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-hook-form": "^7.71.0"
