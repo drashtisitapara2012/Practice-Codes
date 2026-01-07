@@ -1,0 +1,49 @@
+ <!-- DEMO FOR THE STATUS CODES -->
+  
+<!-- <!DOCTYPE html>
+<html>
+<head>
+  <title>REST Status Codes Demo</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>REST API Status Code Demo</h1>
+
+  <button onclick="callApi('/api/profile')">200 OK</button>
+  <button onclick="post('/api/register')">201 / 409</button>
+  <button onclick="post('/api/logout')">204</button>
+  <button onclick="callApi('/api/private')">401</button>
+  <button onclick="callApi('/api/admin')">403</button>
+  <button onclick="callApi('/api/user/99')">404</button>
+  <button onclick="post('/api/validate')">422</button>
+  <button onclick="callApi('/api/otp')">429</button>
+  <button onclick="callApi('/api/error')">500</button>
+
+  <pre id="output"></pre>
+
+  <script src="app.js"></script>
+</body>
+</html> -->
+
+
+
+<!-- HOW 429 ERROR IS HANDLED -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>429 Too Many Requests Demo</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <h1>429 Too Many Requests (OTP Example)</h1>
+
+  <button id="otpBtn" onclick="sendOtp()">Send OTP</button>
+
+  <p id="message"></p>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -2,14 +2,14 @@
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    margin: 20px;
+    margin: auto;
     font-family: Arial, sans-serif;
 }
 
 .top {
     display: flex;
     flex-wrap: wrap;
-    gap: 30px;
+    gap: 20px;
 }
 
 .card {
@@ -17,7 +17,6 @@
     border-radius: 12px;
     border: 1px solid #eee;
     text-align: center;
-    flex: 1;
 }
 
 .card img {
@@ -43,10 +42,9 @@
     padding: 40px;
     gap:30px;
     border-radius: 12px;
-    flex-direction: row;
+    flex-direction:row;
     align-items: center;
     background: #f9d438;
-    flex: 2;
 }
 
 .text h1 {
@@ -64,7 +62,6 @@
 
 .image img {
     width: 190px;
-    margin-left: 270px;
 }
 
 .right {
