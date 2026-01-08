@@ -33,6 +33,7 @@ export default function ExpenseForm() {
       }
     }
   }, [id, expenses]);
+  
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

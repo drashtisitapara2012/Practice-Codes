@@ -1,6 +1,7 @@
-*{
-    box-sizing: border-box;
+* {
+  box-sizing: border-box;
 }
+
 body {
   font-family: Arial, Helvetica, sans-serif;
   background-color: #f4f6f8;
@@ -30,12 +31,13 @@ button:hover {
   background-color: #4338ca;
 }
 
-button + br + #search {
+button+br+#search {
   display: block;
   margin: 20px auto 30px;
   max-width: 420px;
   width: 100%;
 }
+
 .form-header {
   display: flex;
   justify-content: space-between;
@@ -65,18 +67,19 @@ button + br + #search {
   outline: none;
   border-color: #4f46e5;
 }
+
 .search-cancel {
   position: absolute;
   right: 8px;
   font-size: 20px;
   cursor: pointer;
-  display: none;
   color: #999;
 }
 
 .search-cancel:hover {
   color: #333;
 }
+
 #expenseTable {
   width: 100%;
   max-width: 1000px;
@@ -104,21 +107,31 @@ button + br + #search {
   font-size: 14px;
   color: #333;
   border-bottom: 1px solid #eee;
+
+}
+
+#expenseTable td:first-child {
+  max-width: 150px;
+  white-space: normal;
+  word-break: break-word;
 }
 
 #expenseTable tr:last-child td {
   border-bottom: none;
 }
 
-.actions{
-    padding: 40px;
+.actions {
+  padding: 40px;
+  display: flex;
+  gap: 13px;
 }
+
 .actions .edit {
   color: #2563eb;
 }
 
-.actions .delete {
-  color:#dc2626;
+.actions .delete :hover {
+  color: #dc2626;
 }
 
 .error {
@@ -146,32 +159,34 @@ button + br + #search {
   margin-bottom: 16px;
 }
 
+#expenseForm div {
+  margin-bottom: 20px;
+}
+
 #expenseForm label {
+  display: block;
   font-weight: 600;
   font-size: 14px;
   color: #555;
+  margin-bottom: 6px;
 }
 
 #expenseForm input,
 #expenseForm select {
   width: 100%;
   padding: 10px;
-  margin-top: 6px;
+  margin-top: 0;
   border-radius: 6px;
   border: 1px solid #ccc;
   font-size: 14px;
   box-sizing: border-box;
-}
-
-#expenseForm input:focus,
-#expenseForm select:focus {
-  outline: none;
-  border-color: #4f46e5;
+  margin-bottom: 9px;
 }
 
 #expenseForm button {
   width: 100%;
   padding: 12px;
+  margin-top: 15px;
   background-color: #4f46e5;
   color: white;
   border: none;
@@ -181,6 +196,7 @@ button + br + #search {
   cursor: pointer;
   transition: background-color 0.3s;
 }
+
 
 #expenseForm button:hover {
   background-color: #4338ca;
@@ -217,14 +233,16 @@ button + br + #search {
 }
 
 .search-wrapper.active input {
-  width: 200px; 
+  width: 200px;
   opacity: 1;
 }
+
 .search-icon {
   color: #4f46e5;
   font-size: 18px;
   cursor: pointer;
 }
+
 .total-expense {
   font-weight: 600;
   font-size: 18px;
@@ -238,18 +256,20 @@ button + br + #search {
   background: #fff;
   padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
 }
 
 .chart-container h3 {
   text-align: center;
   margin-bottom: 15px;
 }
+
 .table-section {
   width: 100%;
   max-width: 1000px;
   margin: auto;
 }
+
 .table-wrapper {
   width: 100%;
   overflow-x: auto;
@@ -272,7 +292,7 @@ button + br + #search {
 }
 
 .pagination button.active {
-  
+
   color: white;
   border: 2px solid #080808;
 }
@@ -293,21 +313,63 @@ button + br + #search {
   }
 }
 
+
+
 @media (max-width: 480px) {
   body {
     padding: 12px;
   }
 
   #expenseTable {
-    font-size: 12px;
+    font-size: 14px;
+    border: none;
   }
 
-  .table-wrapper {
-    overflow-x: auto;
+  #expenseTable thead {
+    display: none;
+  }
+
+  #expenseTable tr {
+    display: block;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 12px;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  }
+
+  #expenseTable td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    min-width: 80px;
+    display: inline-block;
+  }
+
+  #expenseTable td {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 6px 0;
+    border-bottom: 1px solid #eee;
+    word-break: break-word;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  #expenseTable td:last-child {
+    border-bottom: none;
+  }
+
+  .actions {
+    padding: 2px;
+    gap: 7px;
+    justify-content: flex-start;
+    flex: 0 0 auto;
   }
 
   .actions i {
-    font-size: 14px;
+    font-size: 18px;
+    cursor: pointer;
   }
 }
-

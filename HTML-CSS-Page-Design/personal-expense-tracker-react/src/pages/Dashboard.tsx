@@ -10,6 +10,14 @@ export default function Dashboard() {
 
   const [expenses, setExpenses] = useState<Expense[]>([]);
 
+  useEffect(() => {
+    const loadExpenses = async () => {
+      const data = await getAllExpenses();
+      setExpenses(data);
+    };
+    loadExpenses();
+  }, []);
+
   // Sync expenses from localStorage
   // useEffect(() => {
   //   const data = localStorage.getItem("expenses");
@@ -17,13 +25,6 @@ export default function Dashboard() {
   //     setExpenses(JSON.parse(data));
   //   }
   // }, []);
-useEffect(() => {
-  const fetchExpenses = async () => {
-    const data = await getAllExpenses();
-    setExpenses(data);
-  };
-  fetchExpenses();
-}, []);
 
   const [searchQuery, setSearchQuery] = useState("");
   const [fromDate, setFromDate] = useState("");
@@ -62,16 +63,18 @@ useEffect(() => {
   //   setExpenses(updated);
   //   localStorage.setItem("expenses", JSON.stringify(updated));
   // };
-const deleteExpense = async (id: number) => {
-  if (!confirm("Are you sure you want to delete this expense?")) return;
-  await deleteFromDb(id);
-  setExpenses(prev => prev.filter(exp => exp.id !== id));
-};
+  const deleteExpense = async (id: number) => {
+    if (!confirm("Are you sure you want to delete this expense?")) return;
+    await deleteFromDb(id);
+    setExpenses(prev => prev.filter(exp => exp.id !== id));
+  };
 
   const editExpense = (id: number) => {
     localStorage.setItem("editExpenseId", id.toString());
     navigate("/add");
   };
+
+
 
   const handlePageChange = (page: number) => {
     if (page >= 1 && page <= totalPages) {
@@ -94,7 +97,7 @@ const deleteExpense = async (id: number) => {
         ></i>
         {/* FROM DATE */}
         <div className="date-filter">
-          <label>From Date</label>
+          <label>From:</label>
           <input
             type="date"
             value={fromDate}
@@ -103,22 +106,22 @@ const deleteExpense = async (id: number) => {
               setToDate(""); // reset To Date if From Date changes
             }}
             min={new Date(Date.now() - 90 * 24 * 60 * 60 * 1000)
-            .toISOString()
-            .split("T")[0]}
+              .toISOString()
+              .split("T")[0]}
             max={today}
           />
         </div>
 
         {/* TO DATE */}
         <div className="date-filter">
-          <label>To Date</label>
+          <label>To:</label>
           <input
             type="date"
             value={toDate}
             onChange={e => setToDate(e.target.value)}
-            min={fromDate}          
+            min={fromDate}
             max={today}
-            disabled={!fromDate}    
+            disabled={!fromDate}
           />
         </div>
         <div className={`search-wrapper ${showSearch ? "active" : ""}`}>
@@ -169,7 +172,7 @@ const deleteExpense = async (id: number) => {
             ) : (
               paginatedExpenses.map((exp) => (
                 <tr key={exp.id}>
-                  <td>{exp.title}</td>
+                  {/* <td>{exp.title}</td>
                   <td>₹{exp.amount}</td>
                   <td>{exp.category}</td>
                   <td>{exp.date}</td>
@@ -182,7 +185,22 @@ const deleteExpense = async (id: number) => {
                       className="fa-solid fa-trash"
                       onClick={() => deleteExpense(exp.id)}
                     ></i>
+                  </td> */}
+                  <td data-label="Item">{exp.title}</td>
+                  <td data-label="Amount">₹{exp.amount}</td>
+                  <td data-label="Category">{exp.category}</td>
+                  <td data-label="Date">{exp.date}</td>
+                  <td data-label="Actions" className="actions">
+                    <i
+                      className="fa-solid fa-pen-to-square"
+                      onClick={() => editExpense(exp.id)}
+                    ></i>
+                    <i
+                      className="fa-solid fa-trash"
+                      onClick={() => deleteExpense(exp.id)}
+                    ></i>
                   </td>
+
                 </tr>
               ))
             )}
