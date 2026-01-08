@@ -97,7 +97,7 @@ export default function Dashboard() {
         ></i>
         {/* FROM DATE */}
         <div className="date-filter">
-          <label>From:</label>
+          <label>From: </label>
           <input
             type="date"
             value={fromDate}
@@ -114,7 +114,7 @@ export default function Dashboard() {
 
         {/* TO DATE */}
         <div className="date-filter">
-          <label>To:</label>
+          <label>To: </label>
           <input
             type="date"
             value={toDate}

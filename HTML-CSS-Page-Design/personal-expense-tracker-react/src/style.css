@@ -111,7 +111,7 @@ button+br+#search {
 }
 
 #expenseTable td:first-child {
-  max-width: 150px;
+  max-width: 200px;
   white-space: normal;
   word-break: break-word;
 }
@@ -354,7 +354,6 @@ button+br+#search {
     border-bottom: 1px solid #eee;
     word-break: break-word;
     gap: 10px;
-    flex-wrap: wrap;
   }
 
   #expenseTable td:last-child {
