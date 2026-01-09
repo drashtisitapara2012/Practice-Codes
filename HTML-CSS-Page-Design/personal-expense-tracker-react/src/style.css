@@ -111,7 +111,7 @@ button+br+#search {
 }
 
 #expenseTable td:first-child {
-  max-width: 200px;
+  max-width: 90px;
   white-space: normal;
   word-break: break-word;
 }
@@ -318,6 +318,17 @@ button+br+#search {
 @media (max-width: 480px) {
   body {
     padding: 12px;
+  }
+
+  .add-icon {
+    font-size: 23px;
+    padding: 8px;
+  }
+
+  #expenseTable td:first-child {
+    max-width: 900px;
+    white-space: normal;
+    word-break: break-word;
   }
 
   #expenseTable {
