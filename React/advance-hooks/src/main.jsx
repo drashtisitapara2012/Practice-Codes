@@ -7,6 +7,10 @@ import Counter from './effectEventHook.jsx'
 import InputField from './idHook.jsx'
 import ImperativeHook from './imperativeHandleHook.jsx'
 import Box from './insertionEffectHook.jsx'
+import Tooltip from './layoutEffectHook.jsx'
+import LikeButton from './optimisticHook.jsx'
+import TransitionHook from './transitionHook.jsx'
+import SyncExternalStore from './syncExternalStoreHook.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -14,7 +18,11 @@ createRoot(document.getElementById('root')).render(
     <WithDeferred/>
     <Counter/>
     <InputField/>
-    <ImperativeHook/> */}
-    <Box/>
+    <ImperativeHook/>
+    <Box/> 
+    <Tooltip/>
+    <LikeButton/>
+    <TransitionHook/> */}
+    <SyncExternalStore/>
   </StrictMode>,
 )
