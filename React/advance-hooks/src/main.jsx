@@ -11,6 +11,7 @@ import Tooltip from './layoutEffectHook.jsx'
 import LikeButton from './optimisticHook.jsx'
 import TransitionHook from './transitionHook.jsx'
 import SyncExternalStore from './syncExternalStoreHook.jsx'
+import FormHandling from './formHandling.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -22,7 +23,8 @@ createRoot(document.getElementById('root')).render(
     <Box/> 
     <Tooltip/>
     <LikeButton/>
-    <TransitionHook/> */}
-    <SyncExternalStore/>
+    <TransitionHook/> 
+    <SyncExternalStore/>*/}
+    <FormHandling/>
   </StrictMode>,
 )
