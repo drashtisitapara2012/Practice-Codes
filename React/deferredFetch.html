@@ -1,0 +1,32 @@
+<!-- “Deferred fetch delays non-critical network requests until the browser is idle, improving performance and user experience.” -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Deferred Fetch Example</title>
+  </head>
+  <body>
+    <h2>User Dashboard</h2>
+    <p id="profile">Loading profile...</p>
+    <p id="recommendations">Recommendations will load later...</p>
+
+    <script>
+      // Immediate (critical) fetch
+      fetch("https://jsonplaceholder.typicode.com/users/1")
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById("profile").textContent =
+            "User: " + data.name;
+        });
+
+      // Deferred (non-critical) fetch
+      requestIdleCallback(() => {
+        fetch("https://jsonplaceholder.typicode.com/posts?userId=1")
+          .then(res => res.json())
+          .then(data => {
+            document.getElementById("recommendations").textContent =
+              "Recommendations loaded: " + data.length;
+          });
+      });
+    </script>
+  </body>
+</html>

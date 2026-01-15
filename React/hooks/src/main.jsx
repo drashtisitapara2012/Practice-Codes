@@ -9,11 +9,11 @@ import UseCallbackDemo from './useCallback.jsx'
 import UseMemoDemo from './useMemo.jsx'
 import CustomHooksDemo from './customHooks.jsx'
 import FormDemo from './CustomHook/form.jsx'
-import LargeScreen from './ResizeHook/LargeScreen.jsx'
+// import LargeScreen from './ResizeHook/LargeScreen.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    {/* <UseStateDemo />
+    <UseStateDemo />
     <UseEffectDemo/>
     <UseContextDemo/>
     <Timer/>
@@ -21,7 +21,7 @@ createRoot(document.getElementById('root')).render(
     <UseCallbackDemo/>
     <UseMemoDemo/>
     <CustomHooksDemo/>
-    <FormDemo/> */}
-    <LargeScreen/>
+     <FormDemo/>
+   {/* <LargeScreen/> */}
   </StrictMode>
 )
