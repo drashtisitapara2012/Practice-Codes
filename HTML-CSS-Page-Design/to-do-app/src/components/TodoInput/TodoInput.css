@@ -1,0 +1,83 @@
+/* Container for input + button + title */
+.todo-input-container {
+  display: flex;
+  flex-direction: column; /* stack title above input/button */
+  align-items: center;    /* center everything horizontally */
+  gap: 12px;              /* space between title, input, and button */
+  margin: 28px auto;
+  max-width: 500px;       /* prevents stretching on large screens */
+  width: 90%;             /* responsive */
+}
+
+/* Title */
+.todo-input-container h1 {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+  color: #2563eb; /* matches modal and button color */
+}
+
+/* Wrapper for input + button in same row */
+.input-button-wrapper {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+}
+
+/* Input box */
+.todo-input {
+  flex: 1;                /* input grows to fill space */
+  height: 38px;
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.todo-input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 4px rgba(37, 99, 235, 0.3);
+}
+
+/* Add button */
+.add-btn {
+  height: 55px;
+  padding: 0 18px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  transition: opacity 0.2s, transform 0.1s;
+}
+
+.add-btn:hover {
+  opacity: 0.9;
+  transform: scale(1.03);
+}
+
+.add-btn:active {
+  opacity: 0.85;
+  transform: scale(0.97);
+}
+@media (max-width: 480px) {
+  .input-button-wrapper {
+    flex-direction: column; 
+  }
+
+  .add-btn {
+    width: 100%;          
+  }
+
+  .todo-input {
+    width: 100%;          
+  }
+  .todo-input-container h1 {
+    font-size: 24px;      
+    text-align: center;
+  }
+}
