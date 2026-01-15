@@ -1,11 +1,12 @@
 import { useTodos } from "../../context/TodoContext";
 import TodoItem from "../TodoItem/TodoItem";
+import Pagination from "../Pagination/Pagination";
 import "./TodoList.css";
 
-const TodoList = () => {
-  const { filteredTodos } = useTodos();
+const TodoList = ({ onEdit }) => {
+  const { paginatedTodos, filteredTodos } = useTodos();
 
-  // Calculate summary
+  // Calculate summary based on filtered todos (not paginated)
   const total = filteredTodos.length;
   const completed = filteredTodos.filter((todo) => todo.completed).length;
   const remaining = total - completed;
@@ -34,10 +35,13 @@ const TodoList = () => {
 
       {/* Todo list */}
       <ul className="todo-list">
-        {filteredTodos.map((todo) => (
-          <TodoItem key={todo.id} todo={todo} />
+        {paginatedTodos.map((todo) => (
+          <TodoItem key={todo.id} todo={todo} onEdit={onEdit} />
         ))}
       </ul>
+
+      {/* Pagination */}
+      <Pagination />
     </div>
   );
 };

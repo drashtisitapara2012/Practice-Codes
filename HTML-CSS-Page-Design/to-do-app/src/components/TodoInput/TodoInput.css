@@ -37,32 +37,33 @@
 }
 
 .todo-input:focus {
-  border-color: #2563eb;
-  box-shadow: 0 0 4px rgba(37, 99, 235, 0.3);
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
 /* Add button */
 .add-btn {
-  height: 55px;
-  padding: 0 18px;
+  height: 45px;
+  padding: 0 24px;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 700;
   cursor: pointer;
-  background-color: #2563eb;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   border: none;
-  border-radius: 6px;
-  transition: opacity 0.2s, transform 0.1s;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 }
 
 .add-btn:hover {
-  opacity: 0.9;
-  transform: scale(1.03);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
 }
 
 .add-btn:active {
-  opacity: 0.85;
-  transform: scale(0.97);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
 }
 @media (max-width: 480px) {
   .input-button-wrapper {

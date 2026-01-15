@@ -2,16 +2,18 @@ import { useEffect, useRef, useState } from "react";
 import { useTodos } from "../../context/TodoContext";
 import "./AddTodoModal.css";
 
-const AddTodoModal = ({ onClose }) => {
-  const { addTodo, todos } = useTodos();
+const AddTodoModal = ({ onClose, editingTodo = null }) => {
+  const { addTodo, editTodo, todos } = useTodos();
 
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [priority, setPriority] = useState("Medium");
-  const [dueDate, setDueDate] = useState("");
+  const [title, setTitle] = useState(editingTodo?.title || "");
+  const [description, setDescription] = useState(editingTodo?.description || "");
+  const [priority, setPriority] = useState(editingTodo?.priority || "Medium");
+  const [dueDate, setDueDate] = useState(editingTodo?.dueDate || "");
   const [error, setError] = useState("");
 
   const titleRef = useRef(null);
+  const MAX_DESCRIPTION_LENGTH = 100;
+  const MIN_TITLE_LENGTH = 3;
 
   useEffect(() => {
     titleRef.current.focus();
@@ -19,31 +21,72 @@ const AddTodoModal = ({ onClose }) => {
     return () => (document.body.style.overflow = "auto");
   }, []);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const getTodayDate = () => {
+    const today = new Date();
+    return today.toISOString().split("T")[0];
+  };
 
+  const validateForm = () => {
     const trimmedTitle = title.trim();
+
     if (!trimmedTitle) {
       setError("Title is required");
-      return;
+      return false;
     }
 
+    if (trimmedTitle.length < MIN_TITLE_LENGTH) {
+      setError(`Title must be at least ${MIN_TITLE_LENGTH} characters`);
+      return false;
+    }
+
+    if (description.length > MAX_DESCRIPTION_LENGTH) {
+      setError(`Description cannot exceed ${MAX_DESCRIPTION_LENGTH} characters`);
+      return false;
+    }
+
+    // Check if title already exists (excluding current todo if editing)
     const exists = todos.some(
-      (t) => t.title.toLowerCase() === trimmedTitle.toLowerCase()
+      (t) =>
+        t.title.toLowerCase() === trimmedTitle.toLowerCase() &&
+        t.id !== editingTodo?.id
     );
 
     if (exists) {
       setError("This TODO already exists");
+      return false;
+    }
+
+    // Validate due date is not in the past
+    if (dueDate && dueDate < getTodayDate()) {
+      setError("Due date cannot be in the past");
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!validateForm()) {
       return;
     }
 
-    addTodo({
-      title: trimmedTitle,
+    const todoData = {
+      title: title.trim(),
       description,
       priority,
       dueDate,
-      completed: false,
-    });
+    };
+
+    if (editingTodo) {
+      editTodo(editingTodo.id, todoData);
+    } else {
+      addTodo({
+        ...todoData,
+        completed: false,
+      });
+    }
 
     onClose();
   };
@@ -51,11 +94,11 @@ const AddTodoModal = ({ onClose }) => {
   return (
     <div className="modal-overlay">
       <div className="modal">
-        <h2>Add New TODO</h2>
+        <h2>{editingTodo ? "Edit TODO" : "Add New TODO"}</h2>
 <form onSubmit={handleSubmit}>
 
   <div className="form-group">
-    <label>Title *</label>
+    <label>Title * (min {MIN_TITLE_LENGTH} characters)</label>
     <input
       ref={titleRef}
       type="text"
@@ -64,15 +107,22 @@ const AddTodoModal = ({ onClose }) => {
         setTitle(e.target.value);
         setError("");
       }}
+      maxLength="100"
     />
   </div>
 
   <div className="form-group">
-    <label>Description</label>
+    <label>Description (max {MAX_DESCRIPTION_LENGTH} characters)</label>
     <textarea
       value={description}
-      onChange={(e) => setDescription(e.target.value)}
+      onChange={(e) => {
+        setDescription(e.target.value.slice(0, MAX_DESCRIPTION_LENGTH));
+        setError("");
+      }}
+      maxLength={MAX_DESCRIPTION_LENGTH}
+      placeholder={`Enter description (${description.length}/${MAX_DESCRIPTION_LENGTH})`}
     />
+    <small className="char-count">{description.length}/{MAX_DESCRIPTION_LENGTH}</small>
   </div>
 
   <div className="form-group">
@@ -92,7 +142,11 @@ const AddTodoModal = ({ onClose }) => {
     <input
       type="date"
       value={dueDate}
-      onChange={(e) => setDueDate(e.target.value)}
+      onChange={(e) => {
+        setDueDate(e.target.value);
+        setError("");
+      }}
+      min={getTodayDate()}
     />
   </div>
 
@@ -100,7 +154,7 @@ const AddTodoModal = ({ onClose }) => {
 
   <div className="actions">
     <button type="button" onClick={onClose}>Cancel</button>
-    <button type="submit">Add</button>
+    <button type="submit">{editingTodo ? "Update" : "Add"}</button>
   </div>
 
 </form>

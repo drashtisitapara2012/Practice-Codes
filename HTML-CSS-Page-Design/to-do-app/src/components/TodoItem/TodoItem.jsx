@@ -1,8 +1,14 @@
+import { useState } from "react";
 import { useTodos } from "../../context/TodoContext";
 import "./TodoItem.css";
 
-const TodoItem = ({ todo }) => {
+const TodoItem = ({ todo, onEdit }) => {
   const { deleteTodo, toggleTodo } = useTodos();
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+
+  const handleDeleteClick = () => {
+    setShowConfirmDelete(true);
+  };
 
   return (
     <li className={`todo-item ${todo.completed ? "completed" : ""}`}>
@@ -25,10 +31,43 @@ const TodoItem = ({ todo }) => {
       </div>
 
       <div className="todo-actions">
-        <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+        {!todo.completed && (
+          <button className="edit-btn" onClick={() => onEdit(todo)}>
+            Edit
+          </button>
+        )}
+        <button
+          className={`delete-btn ${todo.completed ? "cleanup-btn" : ""}`}
+          onClick={handleDeleteClick}
+        >
+          {todo.completed ? "Clean Up" : "Delete"}
+        </button>
       </div>
-    </li>
 
+      {/* Confirmation dialog for delete */}
+      {showConfirmDelete && (
+        <div className="delete-confirm">
+          <p>Are you sure you want to delete this TODO: "{todo.title}"?</p>
+          <div className="confirm-actions">
+            <button
+              className="confirm-btn"
+              onClick={() => {
+                deleteTodo(todo.id);
+                setShowConfirmDelete(false);
+              }}
+            >
+              Yes, Delete
+            </button>
+            <button
+              className="cancel-btn"
+              onClick={() => setShowConfirmDelete(false)}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+    </li>
   );
 };
 

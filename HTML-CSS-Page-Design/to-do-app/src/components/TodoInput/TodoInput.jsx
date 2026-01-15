@@ -1,6 +1,7 @@
 // src/components/TodoInput/TodoInput.jsx
 import React, { useRef, useState } from "react";
 import { useTodos } from "../../context/TodoContext";
+import FilterBar from "../FilterBar/FilterBar";
 import "./TodoInput.css";
 
 const TodoInput = ({ onAddClick }) => {
@@ -23,6 +24,8 @@ const TodoInput = ({ onAddClick }) => {
       + Add TODO
     </button>
   </div>
+
+  <FilterBar />
 </div>
 
   );

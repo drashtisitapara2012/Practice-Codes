@@ -1,0 +1,133 @@
+/* Pagination Container */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 2.5rem auto;
+  flex-wrap: nowrap; /* ✅ FIX: prevent vertical stacking */
+  padding: 1.5rem;
+  background: linear-gradient(
+    135deg,
+    rgba(245, 247, 250, 0.5) 0%,
+    rgba(233, 236, 241, 0.5) 100%
+  );
+  border-radius: 10px;
+  animation: slideUp 0.5s ease-out;
+}
+
+/* Pagination Button - Previous/Next */
+.pagination-btn {
+  height: 42px;
+  padding: 0 18px;
+  font-size: 14px;
+  font-weight: 700;
+  border: none;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #ffffff;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  flex-shrink: 0; /* ✅ FIX */
+}
+
+.pagination-btn:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.pagination-btn:active:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.pagination-btn:disabled {
+  background: #e9ecf1;
+  color: #b8c5d6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Page Number Button */
+.page-number {
+  height: 42px;
+  width: 42px;
+  font-size: 14px;
+  font-weight: 600;
+  border: 2px solid #d1d8e0;
+  background: #ffffff;
+  color: #5a6b7d;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0; /* ✅ FIX */
+}
+
+.page-number:hover {
+  background: #f9fbfc;
+  border-color: #667eea;
+  color: #667eea;
+}
+
+.page-number.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #ffffff;
+  border-color: transparent;
+  font-weight: 700;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+/* Page Dots */
+.page-dots {
+  color: #9db4c7;
+  font-weight: 700;
+  padding: 0 6px;
+  font-size: 16px;
+}
+
+/* Pagination Info Section */
+.pagination-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  justify-content: center;
+}
+
+/* Pagination Summary */
+.pagination-summary {
+  font-size: 14px;
+  color: #5a6b7d;
+  font-weight: 600;
+}
+
+/* Mobile responsive */
+@media (max-width: 600px) {
+  .pagination {
+    gap: 0.5rem;
+    margin: 2rem auto;
+    padding: 1rem;
+  }
+
+  .pagination-btn {
+    height: 38px;
+    padding: 0 12px;
+    font-size: 12px;
+  }
+
+  .page-number {
+    height: 38px;
+    width: 38px;
+    font-size: 12px;
+  }
+
+  .pagination-summary {
+    font-size: 12px;
+  }
+}

@@ -5,15 +5,28 @@ import AddTodoModal from "./components/AddTodoModal/AddTodoModal";
 
 function App() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [editingTodo, setEditingTodo] = useState(null);
+
+  const handleEditTodo = (todo) => {
+    setEditingTodo(todo);
+  };
+
+  const handleCloseModal = () => {
+    setIsAddModalOpen(false);
+    setEditingTodo(null);
+  };
 
   return (
     <>
       <TodoInput onAddClick={() => setIsAddModalOpen(true)} />
 
-      <TodoList />
+      <TodoList onEdit={handleEditTodo} />
 
-      {isAddModalOpen && (
-        <AddTodoModal onClose={() => setIsAddModalOpen(false)} />
+      {(isAddModalOpen || editingTodo) && (
+        <AddTodoModal 
+          onClose={handleCloseModal}
+          editingTodo={editingTodo}
+        />
       )}
     </>
   );
