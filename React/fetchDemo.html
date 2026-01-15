@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Fetch API – All HTTP Methods Demo</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    button { margin: 5px; padding: 8px 12px; }
+    pre { background: #f4f4f4; padding: 10px; }
+  </style>
+</head>
+<body>
+
+  <h2>Fetch API – HTTP Methods Demo</h2>
+
+  <button onclick="getUsers()">GET</button>
+  <button onclick="createUser()">POST</button>
+  <button onclick="updateUser()">PUT</button>
+  <button onclick="patchUser()">PATCH</button>
+  <button onclick="deleteUser()">DELETE</button>
+  <button onclick="headRequest()">HEAD</button>
+  <button onclick="optionsRequest()">OPTIONS</button>
+
+  <pre id="output">Click a button to see output</pre>
+
+  <script>
+    const output = document.getElementById("output");
+
+    // GET
+    async function getUsers() {
+      const res = await fetch("https://jsonplaceholder.typicode.com/users/1");
+      const data = await res.json();
+      output.textContent = "GET Response:\n" + JSON.stringify(data, null, 2);
+    }
+
+    // POST 
+    async function createUser() {
+      const res = await fetch("https://jsonplaceholder.typicode.com/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name: "Alice",
+          email: "alice@test.com"
+        })
+      });
+
+      const data = await res.json();
+      output.textContent = "POST Response:\n" + JSON.stringify(data, null, 2);
+    }
+
+    // PUT 
+    async function updateUser() {
+      const res = await fetch("https://jsonplaceholder.typicode.com/users/1", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name: "Updated Alice",
+          email: "updated@test.com"
+        })
+      });
+
+      const data = await res.json();
+      output.textContent = "PUT Response:\n" + JSON.stringify(data, null, 2);
+    }
+
+    // PATCH 
+    async function patchUser() {
+      const res = await fetch("https://jsonplaceholder.typicode.com/users/1", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email: "patched@test.com"
+        })
+      });
+
+      const data = await res.json();
+      output.textContent = "PATCH Response:\n" + JSON.stringify(data, null, 2);
+    }
+
+    // DELETE 
+    async function deleteUser() {
+      const res = await fetch("https://jsonplaceholder.typicode.com/users/1", {
+        method: "DELETE"
+      });
+
+      output.textContent =
+        "DELETE Response:\nStatus Code: " + res.status;
+    }
+
+    // HEAD – Headers only
+    async function headRequest() {
+      const res = await fetch("https://jsonplaceholder.typicode.com/users", {
+        method: "HEAD"
+      });
+
+      output.textContent =
+        "HEAD Response:\nContent-Type: " +
+        res.headers.get("content-type");
+    }
+
+    // OPTIONS 
+    async function optionsRequest() {
+      const res = await fetch("https://jsonplaceholder.typicode.com/users", {
+        method: "OPTIONS"
+      });
+
+      output.textContent =
+        "OPTIONS Response:\nAllowed Methods: " +
+        res.headers.get("allow");
+    }
+  </script>
+
+</body>
+</html>
