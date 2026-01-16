@@ -61,6 +61,10 @@ const AddTodoModal = ({ onClose, editingTodo = null }) => {
       setError("Due date cannot be in the past");
       return false;
     }
+    if(!dueDate){
+      setError("Date is required");
+      return false;
+    }
 
     return true;
   };
@@ -138,7 +142,7 @@ const AddTodoModal = ({ onClose, editingTodo = null }) => {
   </div>
 
   <div className="form-group">
-    <label>Due Date</label>
+    <label>Due Date *</label>
     <input
       type="date"
       value={dueDate}

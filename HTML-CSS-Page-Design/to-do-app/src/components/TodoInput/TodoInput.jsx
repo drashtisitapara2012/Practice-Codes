@@ -3,9 +3,14 @@ import React, { useRef, useState } from "react";
 import { useTodos } from "../../context/TodoContext";
 import FilterBar from "../FilterBar/FilterBar";
 import "./TodoInput.css";
+import {useDebounce} from '../../hooks/useDebounce';
 
 const TodoInput = ({ onAddClick }) => {
   const { searchTerm, setSearchTerm } = useTodos();
+  const debouncedSearchTerm = useDebounce(searchTerm, 5000); 
+  React.useEffect(() => {
+    setSearchTerm(debouncedSearchTerm);
+  }, [debouncedSearchTerm]);
 
   return (
     <div className="todo-input-container">

@@ -7,7 +7,7 @@ const FilterBar = () => {
   return (
     <div className="filter-bar">
       <div className="filter-group">
-        <label htmlFor="sort-select">Sort by:</label>
+        <label htmlFor="sort-select">Sort by </label>
         <select
           id="sort-select"
           value={sortBy}

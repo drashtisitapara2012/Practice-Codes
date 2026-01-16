@@ -68,7 +68,7 @@
 }
 
 .summary-item.remaining {
-  background: linear-gradient(135deg, #ff6b6b 0%, #ff5252 100%);
+  background: linear-gradient(135deg, #ff7777 0%, #ff5252 100%);
 }
 
 .summary-item.remaining .summary-label {

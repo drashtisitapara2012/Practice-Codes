@@ -56,7 +56,7 @@ const TodoItem = ({ todo, onEdit }) => {
                 setShowConfirmDelete(false);
               }}
             >
-              Yes, Delete
+              {todo.completed ? "Clean Up" : "Yes, Delete"}
             </button>
             <button
               className="cancel-btn"
