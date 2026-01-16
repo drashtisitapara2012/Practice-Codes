@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { useTodos } from "../../context/TodoContext";
-import "./AddTodoModal.css";
 
 const AddTodoModal = ({ onClose, editingTodo = null }) => {
   const { addTodo, editTodo, todos } = useTodos();
@@ -44,7 +43,6 @@ const AddTodoModal = ({ onClose, editingTodo = null }) => {
       return false;
     }
 
-    // Check if title already exists (excluding current todo if editing)
     const exists = todos.some(
       (t) =>
         t.title.toLowerCase() === trimmedTitle.toLowerCase() &&
@@ -56,12 +54,12 @@ const AddTodoModal = ({ onClose, editingTodo = null }) => {
       return false;
     }
 
-    // Validate due date is not in the past
     if (dueDate && dueDate < getTodayDate()) {
       setError("Due date cannot be in the past");
       return false;
     }
-    if(!dueDate){
+
+    if (!dueDate) {
       setError("Date is required");
       return false;
     }
@@ -72,9 +70,7 @@ const AddTodoModal = ({ onClose, editingTodo = null }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!validateForm()) {
-      return;
-    }
+    if (!validateForm()) return;
 
     const todoData = {
       title: title.trim(),
@@ -86,87 +82,126 @@ const AddTodoModal = ({ onClose, editingTodo = null }) => {
     if (editingTodo) {
       editTodo(editingTodo.id, todoData);
     } else {
-      addTodo({
-        ...todoData,
-        completed: false,
-      });
+      addTodo({ ...todoData, completed: false });
     }
 
     onClose();
   };
 
   return (
-    <div className="modal-overlay">
-      <div className="modal">
-        <h2>{editingTodo ? "Edit TODO" : "Add New TODO"}</h2>
-<form onSubmit={handleSubmit}>
-
-  <div className="form-group">
-    <label>Title * (min {MIN_TITLE_LENGTH} characters)</label>
-    <input
-      ref={titleRef}
-      type="text"
-      value={title}
-      onChange={(e) => {
-        setTitle(e.target.value);
-        setError("");
-      }}
-      maxLength="100"
-    />
-  </div>
-
-  <div className="form-group">
-    <label>Description (max {MAX_DESCRIPTION_LENGTH} characters)</label>
-    <textarea
-      value={description}
-      onChange={(e) => {
-        setDescription(e.target.value.slice(0, MAX_DESCRIPTION_LENGTH));
-        setError("");
-      }}
-      maxLength={MAX_DESCRIPTION_LENGTH}
-      placeholder={`Enter description (${description.length}/${MAX_DESCRIPTION_LENGTH})`}
-    />
-    <small className="char-count">{description.length}/{MAX_DESCRIPTION_LENGTH}</small>
-  </div>
-
-  <div className="form-group">
-    <label>Priority</label>
-    <select
-      value={priority}
-      onChange={(e) => setPriority(e.target.value)}
+  <div
+    className="fixed inset-0 z-10 flex justify-center bg-black/30 pt-16 animate-fadeIn"
+    onClick={onClose}   // ✅ close when clicking outside
+  >
+    <div
+      className="w-[420px] rounded-xl border border-slate-300/20 bg-gradient-to-br from-white to-slate-100 p-7 shadow-xl animate-slideUp max-w-[90%]"
+      onClick={(e) => e.stopPropagation()} // ✅ prevent closing when clicking inside
     >
-      <option value="Low">Low</option>
-      <option value="Medium">Medium</option>
-      <option value="High">High</option>
-    </select>
-  </div>
+      <h2 className="mb-5 text-[22px] font-bold text-slate-600">
+        {editingTodo ? "Edit TODO" : "Add New TODO"}
+      </h2>
 
-  <div className="form-group">
-    <label>Due Date *</label>
-    <input
-      type="date"
-      value={dueDate}
-      onChange={(e) => {
-        setDueDate(e.target.value);
-        setError("");
-      }}
-      min={getTodayDate()}
-    />
-  </div>
+      <form onSubmit={handleSubmit}>
+        {/* Title */}
+        <div className="mb-4 flex flex-col">
+          <label className="mb-2 text-sm font-semibold text-slate-500">
+            Title * (min {MIN_TITLE_LENGTH} characters)
+          </label>
+          <input
+            ref={titleRef}
+            type="text"
+            value={title}
+            onChange={(e) => {
+              setTitle(e.target.value);
+              setError("");
+            }}
+            maxLength={100}
+            className="h-10 rounded-md border border-slate-300 px-4 text-sm outline-none transition focus:border-slate-400 focus:bg-slate-50 focus:ring-2 focus:ring-slate-300/30"
+          />
+        </div>
 
-  {error && <p className="error">{error}</p>}
+        {/* Description */}
+        <div className="mb-4 flex flex-col">
+          <label className="mb-2 text-sm font-semibold text-slate-500">
+            Description (max {MAX_DESCRIPTION_LENGTH} characters)
+          </label>
+          <textarea
+            value={description}
+            onChange={(e) => {
+              setDescription(e.target.value.slice(0, MAX_DESCRIPTION_LENGTH));
+              setError("");
+            }}
+            maxLength={MAX_DESCRIPTION_LENGTH}
+            placeholder={`Enter description (${description.length}/${MAX_DESCRIPTION_LENGTH})`}
+            className="h-20 resize-none rounded-md border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-slate-400 focus:bg-slate-50 focus:ring-2 focus:ring-slate-300/30"
+          />
+          <small className="mt-1 text-right text-xs text-slate-400">
+            {description.length}/{MAX_DESCRIPTION_LENGTH}
+          </small>
+        </div>
 
-  <div className="actions">
-    <button type="button" onClick={onClose}>Cancel</button>
-    <button type="submit">{editingTodo ? "Update" : "Add"}</button>
-  </div>
+        {/* Priority */}
+        <div className="mb-4 flex flex-col">
+          <label className="mb-2 text-sm font-semibold text-slate-500">
+            Priority
+          </label>
+          <select
+            value={priority}
+            onChange={(e) => setPriority(e.target.value)}
+            className="h-10 rounded-md border border-slate-300 px-4 text-sm outline-none transition focus:border-slate-400 focus:bg-slate-50 focus:ring-2 focus:ring-slate-300/30"
+          >
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+          </select>
+        </div>
 
-</form>
+        {/* Due Date */}
+        <div className="mb-4 flex flex-col">
+          <label className="mb-2 text-sm font-semibold text-slate-500">
+            Due Date *
+          </label>
+          <input
+            type="date"
+            value={dueDate}
+            min={getTodayDate()}
+            onChange={(e) => {
+              setDueDate(e.target.value);
+              setError("");
+            }}
+            className="h-10 rounded-md border border-slate-300 px-4 text-sm outline-none transition focus:border-slate-400 focus:bg-slate-50 focus:ring-2 focus:ring-slate-300/30"
+          />
+        </div>
 
-        
-      </div>
+        {/* Error */}
+        {error && (
+          <p className="mb-2 min-h-[18px] text-sm font-medium text-red-500">
+            {error}
+          </p>
+        )}
+
+        {/* Actions */}
+        <div className="mt-6 flex justify-end gap-3">
+          <button
+            type="button"
+            onClick={onClose}
+            className="h-10 min-w-[90px] rounded-md bg-slate-200 text-sm font-semibold text-slate-600 transition hover:bg-slate-300"
+          >
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            className="h-10 min-w-[90px] rounded-md bg-gradient-to-r from-indigo-500 to-purple-600 text-sm font-semibold text-white transition hover:-translate-y-1 hover:shadow-lg hover:shadow-indigo-400/40"
+          >
+            {editingTodo ? "Update" : "Add"}
+          </button>
+        </div>
+      </form>
     </div>
-  );
+  </div>
+);
+
 };
 
 export default AddTodoModal;

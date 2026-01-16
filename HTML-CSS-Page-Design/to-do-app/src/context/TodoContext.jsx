@@ -28,6 +28,7 @@ export const TodoProvider = ({ children }) => {
           completed: t.completed,
           priority: "Medium",
           dueDate: "",
+         createdAt: Date.now() - t.id * 1000,
         }));
         setTodos(normalizedTodos);
       } catch (err) {
@@ -62,6 +63,7 @@ export const TodoProvider = ({ children }) => {
           completed: data.completed,
           priority: todo.priority || "Medium",
           dueDate: todo.dueDate || "",
+          createdAt: Date.now(),
         },
         ...prev,
       ]);
@@ -126,12 +128,23 @@ export const TodoProvider = ({ children }) => {
   );
 
   const sortedTodos = [...filteredTodos].sort((a, b) => {
-    if (sortBy === "priority") {
-      const order = { High: 1, Medium: 2, Low: 3 };
-      return (order[a.priority] || 4) - (order[b.priority] || 4);
-    }
-    return 0;
-  });
+  if (sortBy === "creationTime") {
+    return b.createdAt - a.createdAt;
+  }
+
+  if (sortBy === "priority") {
+    const order = { High: 1, Medium: 2, Low: 3 };
+    return (order[a.priority] || 4) - (order[b.priority] || 4);
+  }
+
+  if (sortBy === "dueDate") {
+    if (!a.dueDate) return 1;
+    if (!b.dueDate) return -1;
+    return new Date(a.dueDate) - new Date(b.dueDate);
+  }
+
+  return 0;
+});
 
   /*  PAGINATION */
   const totalItems = sortedTodos.length;
