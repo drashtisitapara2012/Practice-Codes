@@ -1,17 +1,19 @@
 // src/components/TodoInput/TodoInput.jsx
-import React from "react";
+import React,{useRef} from "react";
 import { useTodos } from "../../context/TodoContext";
 import FilterBar from "../FilterBar/FilterBar";
 import "./TodoInput.css";
-import { useDebounce } from "../../hooks/useDebounce";
 
+const debounce = (fn, delay = 500) => {
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn(...args), delay);
+  };
+};
 const TodoInput = ({ onAddClick, isAddFormOpen }) => {
-  const { searchTerm, setSearchTerm } = useTodos();
-  const debouncedSearchTerm = useDebounce(searchTerm, 500);
-
-  React.useEffect(() => {
-    setSearchTerm(debouncedSearchTerm);
-  }, [debouncedSearchTerm, setSearchTerm]);
+ const { searchTerm, setSearchTerm } = useTodos();
+  const debouncedSearch = useRef(debounce(setSearchTerm, 500)).current;
 
   return (
     <div
@@ -29,7 +31,7 @@ const TodoInput = ({ onAddClick, isAddFormOpen }) => {
           type="text"
           placeholder="Search TODO..."
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={(e) => debouncedSearch(e.target.value)}
           className="flex-1 h-[39px] px-3 text-sm border border-gray-300 rounded-md outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-200 transition-colors duration-200"
         />
 

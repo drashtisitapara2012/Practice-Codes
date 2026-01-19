@@ -5,14 +5,7 @@ const FilterBar = () => {
   const { sortBy, setSortBy } = useTodos();
 
   return (
-      <div
-      className="
-        sticky top-0 z-30
-        bg-white/90 backdrop-blur-md
-        border-b border-slate-200
-        py-4
-      "
-    >
+      
     <div className="flex justify-center gap-8 my-6 mx-auto w-full max-w-[600px] px-4 animate-slideDown sm:flex-row flex-col sm:gap-8 gap-3">
       <div className="flex items-center gap-8 text-sm font-semibold text-[#6b7d8f]">
         <label className="flex items-center gap-5" htmlFor="sort-select">Sort by </label>
@@ -31,7 +24,6 @@ const FilterBar = () => {
           <option value="dueDate">Due Date</option>
         </select>
       </div>
-    </div>
     </div>
   );
 };

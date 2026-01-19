@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 const TodoContext = createContext();
 export const useTodos = () => useContext(TodoContext);
@@ -10,11 +10,13 @@ export const TodoProvider = ({ children }) => {
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("none");
+  const [filter, setFilter] = useState("all"); // all | completed | remaining
   const [currentPage, setCurrentPage] = useState(1);
 
-  /*  FETCH TODOS  */
+  /* FETCH TODOS */
   useEffect(() => {
     const fetchTodos = async () => {
       try {
@@ -22,15 +24,19 @@ export const TodoProvider = ({ children }) => {
         const res = await fetch(`${API_URL}?limit=30`);
         if (!res.ok) throw new Error("Failed to fetch todos");
         const data = await res.json();
+
         const normalizedTodos = data.todos.map((t) => ({
           id: t.id.toString(),
           title: t.todo,
           completed: t.completed,
           priority: "Medium",
           dueDate: "",
-         createdAt: Date.now() - t.id * 1000,
-         reminderAt:null,
+          description: "",
+          createdAt: Date.now() - t.id * 1000,
+          reminderAt: null,  // timestamp when reminder should fire
+          notified: false,   // to prevent repeated alerts
         }));
+
         setTodos(normalizedTodos);
       } catch (err) {
         setError(err.message);
@@ -38,12 +44,31 @@ export const TodoProvider = ({ children }) => {
         setLoading(false);
       }
     };
+
     fetchTodos();
   }, []);
 
-  /* ADD TODO  */
+  /* RESET PAGE WHEN FILTER / SEARCH CHANGES */
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filter, searchTerm]);
+
+  /* ADD TODO */
   const addTodo = async (todo) => {
     if (!todo?.title?.trim()) return;
+
+    // Calculate reminder timestamp
+    let reminderAt = null;
+    if (todo.dueDate && todo.reminder) {
+      const dueTime = new Date(todo.dueDate).getTime();
+      if (todo.reminder.type === "minutes") {
+        reminderAt = dueTime - todo.reminder.value * 60 * 1000;
+      } else if (todo.reminder.type === "hours") {
+        reminderAt = dueTime - todo.reminder.value * 60 * 60 * 1000;
+      } else if (todo.reminder.type === "days") {
+        reminderAt = dueTime - todo.reminder.value * 24 * 60 * 60 * 1000;
+      }
+    }
 
     try {
       const res = await fetch(`${API_URL}/add`, {
@@ -55,16 +80,20 @@ export const TodoProvider = ({ children }) => {
           userId: 1,
         }),
       });
-      if (!res.ok) throw new Error("Failed to add todo");
+
       const data = await res.json();
+
       setTodos((prev) => [
         {
           id: data.id?.toString() || crypto.randomUUID(),
           title: data.todo,
-          completed: data.completed,
+          completed: false,
           priority: todo.priority || "Medium",
           dueDate: todo.dueDate || "",
+          description: todo.description || "",
           createdAt: Date.now(),
+          reminderAt,
+          notified: false,
         },
         ...prev,
       ]);
@@ -73,36 +102,64 @@ export const TodoProvider = ({ children }) => {
     }
   };
 
-  /*  EDIT TODO (PUT)  */
-  const editTodo = async (id, title) => {
+  /* EDIT TODO */
+  const editTodo = async (id, updates) => {
     try {
       const res = await fetch(`${API_URL}/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ todo: title }),
+        body: JSON.stringify({ todo: updates.title }),
       });
-      if (!res.ok) throw new Error("Failed to edit todo");
+
       const data = await res.json();
+
+      // Calculate updated reminder timestamp
+      let reminderAt = null;
+      if (updates.dueDate && updates.reminder) {
+        const dueTime = new Date(updates.dueDate).getTime();
+        if (updates.reminder.type === "minutes") {
+          reminderAt = dueTime - updates.reminder.value * 60 * 1000;
+        } else if (updates.reminder.type === "hours") {
+          reminderAt = dueTime - updates.reminder.value * 60 * 60 * 1000;
+        } else if (updates.reminder.type === "days") {
+          reminderAt = dueTime - updates.reminder.value * 24 * 60 * 60 * 1000;
+        }
+      }
+
       setTodos((prev) =>
-        prev.map((t) => (t.id === id ? { ...t, title: data.todo } : t))
+        prev.map((t) =>
+          t.id === id
+            ? {
+                ...t,
+                title: data.todo,
+                dueDate: updates.dueDate || t.dueDate,
+                priority: updates.priority || t.priority,
+                description: updates.description || t.description,
+                reminderAt,
+                notified: false,
+              }
+            : t
+        )
       );
     } catch (err) {
       console.error(err);
     }
   };
 
-  /*  TOGGLE TODO (PATCH)  */
+  /* TOGGLE TODO */
   const toggleTodo = async (id) => {
     const todo = todos.find((t) => t.id === id);
     if (!todo) return;
+
     try {
       const res = await fetch(`${API_URL}/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ completed: !todo.completed }),
       });
-      if (!res.ok) throw new Error("Failed to toggle todo");
+
       const data = await res.json();
+
       setTodos((prev) =>
         prev.map((t) =>
           t.id === id ? { ...t, completed: data.completed } : t
@@ -113,7 +170,7 @@ export const TodoProvider = ({ children }) => {
     }
   };
 
-  /*  DELETE TODO  */
+  /* DELETE TODO */
   const deleteTodo = async (id) => {
     try {
       await fetch(`${API_URL}/${id}`, { method: "DELETE" });
@@ -123,59 +180,95 @@ export const TodoProvider = ({ children }) => {
     }
   };
 
-  /*  FILTER + SORT  */
-  const filteredTodos = todos.filter((t) =>
-    t.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  /* FILTER + SEARCH + SORT */
+  const filteredTodos = useMemo(() => {
+    let result = [...todos];
 
-  const sortedTodos = [...filteredTodos].sort((a, b) => {
-  if (sortBy === "creationTime") {
-    return b.createdAt - a.createdAt;
-  }
+    // status filter
+    if (filter === "completed") result = result.filter((t) => t.completed);
+    if (filter === "remaining") result = result.filter((t) => !t.completed);
 
-  if (sortBy === "priority") {
-    const order = { High: 1, Medium: 2, Low: 3 };
-    return (order[a.priority] || 4) - (order[b.priority] || 4);
-  }
+    // search
+    if (searchTerm) {
+      result = result.filter((t) =>
+        t.title.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
 
-  if (sortBy === "dueDate") {
-    if (!a.dueDate) return 1;
-    if (!b.dueDate) return -1;
-    return new Date(a.dueDate) - new Date(b.dueDate);
-  }
+    // sort
+    if (sortBy === "creationTime") result.sort((a, b) => b.createdAt - a.createdAt);
+    if (sortBy === "priority") {
+      const order = { High: 1, Medium: 2, Low: 3 };
+      result.sort((a, b) => (order[a.priority] || 4) - (order[b.priority] || 4));
+    }
+    if (sortBy === "dueDate") {
+      result.sort((a, b) => {
+        if (!a.dueDate) return 1;
+        if (!b.dueDate) return -1;
+        return new Date(a.dueDate) - new Date(b.dueDate);
+      });
+    }
 
-  return 0;
-});
+    return result;
+  }, [todos, filter, searchTerm, sortBy]);
 
-  /*  PAGINATION */
-  const totalItems = sortedTodos.length;
+  /* PAGINATION */
+  const totalItems = filteredTodos.length;
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const paginatedTodos = sortedTodos.slice(
+
+  const paginatedTodos = filteredTodos.slice(
     startIndex,
     startIndex + ITEMS_PER_PAGE
   );
+
+  /* REMINDER CHECK INTERVAL */
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const now = Date.now();
+      todos.forEach((todo) => {
+        if (todo.reminderAt && !todo.notified && now >= todo.reminderAt) {
+          alert(`Reminder: "${todo.title}" is due soon!`);
+          setTodos((prev) =>
+            prev.map((t) =>
+              t.id === todo.id ? { ...t, notified: true } : t
+            )
+          );
+        }
+      });
+    }, 60 * 1000); // check every 1 minute
+
+    return () => clearInterval(interval);
+  }, [todos]);
 
   return (
     <TodoContext.Provider
       value={{
         todos,
-        paginatedTodos,
         filteredTodos,
+        paginatedTodos,
+
         loading,
         error,
+
         searchTerm,
         setSearchTerm,
+
         sortBy,
         setSortBy,
+
+        filter,
+        setFilter,
+
         currentPage,
         setCurrentPage,
         totalPages,
         totalItems,
+
         addTodo,
         editTodo,
-        deleteTodo,
         toggleTodo,
+        deleteTodo,
       }}
     >
       {children}
