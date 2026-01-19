@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Load Event</title>
+</head>
+
+<body>
+    <p id="demo"></p>
+    <img src="https://www.w3schools.com/js/pic_mountain.jpg" alt="Mountain" onload="loadImage()">
+
+    <script>
+        //DOMContentLoaded event is fired when the HTML document is completely loaded and parsed, without waiting for stylesheets, images, and subframes to finish loading.
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("demo").innerHTML = "HTML is loaded!";
+        });
+
+        //load event is fired when the whole page has loaded, including all dependent resources such as stylesheets and images.
+        window.addEventListener("load", function () {
+            document.getElementById("demo").innerHTML = " Page is fully loaded!";
+        });
+
+        //onload event handler can also be used to execute a function when the page is fully loaded.
+        function loadImage(){
+            alert("Image is loaded!");
+        }
+    </script>
+</body>
+
+</html>
