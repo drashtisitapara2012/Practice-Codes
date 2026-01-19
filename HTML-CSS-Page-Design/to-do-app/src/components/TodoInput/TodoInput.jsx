@@ -23,7 +23,7 @@ const TodoInput = ({ onAddClick, isAddFormOpen }) => {
       `}
     >
       <h1 className="text-[28px] font-bold text-[#5c79f8] m-0 text-center sm:text-left">
-        TODO App
+        Taskify
       </h1>
 
       <div className="flex w-full gap-2 sm:flex-row flex-col">

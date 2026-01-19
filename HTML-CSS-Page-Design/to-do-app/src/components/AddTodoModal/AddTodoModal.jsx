@@ -9,6 +9,9 @@ const AddTodoModal = ({ onClose, editingTodo = null }) => {
   const [priority, setPriority] = useState(editingTodo?.priority || "Medium");
   const [dueDate, setDueDate] = useState(editingTodo?.dueDate || "");
   const [errors, setErrors] = useState({});
+  const [reminderValue, setReminderValue] = useState(editingTodo?.reminder?.value || 0);
+  const [reminderType, setReminderType] = useState(editingTodo?.reminder?.type || "hours");
+
 
   const titleRef = useRef(null);
   const MAX_DESCRIPTION_LENGTH = 100;
@@ -23,28 +26,37 @@ const AddTodoModal = ({ onClose, editingTodo = null }) => {
     const today = new Date();
     return today.toISOString().split("T")[0];
   };
+const sanitizeInput = (value = "") => {
+  return value
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#x27;");
+};
 
   const validateForm = () => {
     const trimmedTitle = title.trim();
     const trimmedDesc = description.trim();
 
+const safeTitle = sanitizeInput(trimmedTitle);
+  const safeDesc = sanitizeInput(trimmedDesc);
     const newErrors = {};
 
     // Title
-    if (!trimmedTitle) newErrors.title = "Title is required";
-    else if (trimmedTitle.length < MIN_TITLE_LENGTH)
+    if (!safeTitle) newErrors.title = "Title is required";
+    else if (safeTitle.length < MIN_TITLE_LENGTH)
       newErrors.title = `Title must be at least ${MIN_TITLE_LENGTH} characters`;
 
     // Description (optional but cannot be just spaces)
-    if (description && !trimmedDesc)
+    if (description && !safeDesc)
       newErrors.description = "Description cannot be just spaces";
-    else if (description.length > MAX_DESCRIPTION_LENGTH)
+    else if (safeDesc.length > MAX_DESCRIPTION_LENGTH)
       newErrors.description = `Description cannot exceed ${MAX_DESCRIPTION_LENGTH} characters`;
 
     // Duplicate title
     const exists = todos.some(
       (t) =>
-        t.title.toLowerCase() === trimmedTitle.toLowerCase() &&
+        t.title.toLowerCase() === safeTitle.toLowerCase() &&
         t.id !== editingTodo?.id
     );
     if (exists) newErrors.title = "This TODO already exists";
@@ -66,10 +78,12 @@ const AddTodoModal = ({ onClose, editingTodo = null }) => {
     if (!validateForm()) return;
 
     const todoData = {
-      title: title.trim(),
-      description,
+      title: sanitizeInput(title.trim()),
+      description: sanitizeInput(description.trim()),
       priority,
       dueDate,
+      reminder: reminderValue > 0 ? { value: reminderValue, type: reminderType } : null,
+
     };
 
     if (editingTodo) {
@@ -177,7 +191,34 @@ const AddTodoModal = ({ onClose, editingTodo = null }) => {
             }
           </div>
 
-      
+          {/* Reminder */}
+          <div className="mb-4 flex flex-col">
+            <label className="mb-2 text-sm font-semibold text-slate-500">
+              Reminder (optional)
+            </label>
+            <div className="flex gap-2">
+              <input
+                type="number"
+                min={0}
+                value={reminderValue}
+                onChange={(e) => setReminderValue(Number(e.target.value))}
+                className="h-10 w-24 rounded-md border border-slate-300 px-4 text-sm outline-none transition focus:border-slate-400 focus:bg-slate-50 focus:ring-2 focus:ring-slate-300/30"
+              />
+              <select
+                value={reminderType}
+                onChange={(e) => setReminderType(e.target.value)}
+                className="h-10 rounded-md border border-slate-300 px-4 text-sm outline-none transition focus:border-slate-400 focus:bg-slate-50 focus:ring-2 focus:ring-slate-300/30"
+              >
+                <option value="minutes">Minutes Before</option>
+                <option value="hours">Hours Before</option>
+                <option value="days">Days Before</option>
+              </select>
+            </div>
+            {reminderValue < 0 && (
+              <p className="mt-1 text-xs text-red-500">Reminder cannot be negative</p>
+            )}
+          </div>
+
 
           {/* Actions */}
           <div className="mt-6 flex justify-end gap-3">

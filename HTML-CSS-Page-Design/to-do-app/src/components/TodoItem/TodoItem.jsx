@@ -20,6 +20,7 @@ const TodoItem = ({ todo, onEdit }) => {
     ${todo.completed ? "opacity-70 bg-gradient-to-br from-[#f0f0f0] to-[#e8e8e8]" : ""}
       hover:shadow-[0_8px_25px_rgba(102,126,234,0.08)] hover:border-[#b8d4e8] hover:-translate-y-[2px]
       `}>
+
       <div className="flex items-start justify-between gap-3">
         {/* LEFT SIDE */}
         <div className="flex flex-col gap-1">

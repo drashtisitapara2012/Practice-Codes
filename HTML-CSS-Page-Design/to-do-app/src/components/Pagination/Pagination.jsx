@@ -32,16 +32,11 @@ const Pagination = () => {
       for (let i = 1; i <= totalPages; i++) pages.push(i);
     } else {
       pages.push(1);
-
       if (currentPage > 3) pages.push("...");
-
       const start = Math.max(2, currentPage - 1);
       const end = Math.min(totalPages - 1, currentPage + 1);
-
       for (let i = start; i <= end; i++) pages.push(i);
-
       if (currentPage < totalPages - 2) pages.push("...");
-
       pages.push(totalPages);
     }
 
@@ -56,35 +51,33 @@ const Pagination = () => {
       </div>
 
       {/* Controls */}
-      <div className="flex items-center justify-center gap-3 flex-nowrap max-[600px]:gap-2">
+      <div className="flex flex-wrap items-center justify-center gap-3 sm:flex-nowrap">
         {/* Previous */}
         <button
           onClick={handlePrevious}
           disabled={currentPage === 1}
-          className="flex h-[42px] shrink-0 items-center justify-center rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 px-5 text-sm font-bold text-white shadow-md shadow-indigo-400/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-indigo-400/40 disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none max-[600px]:h-[38px] max-[600px]:px-3 max-[600px]:text-xs"
+          className="flex h-[38px] items-center justify-center rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 px-4 text-sm font-bold text-white shadow transition disabled:bg-slate-200"
         >
-          ← Previous
+          <span className="hidden sm:inline">← Previous</span>
+          <span className="sm:hidden">←</span>
         </button>
 
-        {/* Page Numbers */}
-        <div className="flex items-center gap-3 max-[600px]:gap-2">
+        {/* Page Numbers (hidden on mobile) */}
+        <div className="hidden items-center gap-2 sm:flex">
           {getPageNumbers().map((page, index) =>
             page === "..." ? (
-              <span
-                key={`dots-${index}`}
-                className="text-base font-bold text-slate-400"
-              >
+              <span key={index} className="text-slate-400 font-bold">
                 ...
               </span>
             ) : (
               <button
                 key={page}
                 onClick={() => handlePageClick(page)}
-                className={`flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-lg border-2 text-sm font-semibold transition-all duration-300 max-[600px]:h-[38px] max-[600px]:w-[38px] max-[600px]:text-xs
+                className={`h-9 w-9 rounded-lg border text-sm font-semibold
                   ${
                     currentPage === page
-                      ? "border-transparent bg-gradient-to-r from-indigo-500 to-purple-600 font-bold text-white"
-                      : "border-slate-300 bg-white text-slate-600 hover:bg-slate-50"
+                      ? "bg-indigo-600 text-white border-indigo-600"
+                      : "border-slate-300 text-slate-600 hover:bg-slate-50"
                   }`}
               >
                 {page}
@@ -97,15 +90,16 @@ const Pagination = () => {
         <button
           onClick={handleNext}
           disabled={currentPage === totalPages}
-          className="flex h-[42px] shrink-0 items-center justify-center rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 px-5 text-sm font-bold text-white shadow-md shadow-indigo-400/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-indigo-400/40 disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none max-[600px]:h-[38px] max-[600px]:px-3 max-[600px]:text-xs"
+          className="flex h-[38px] items-center justify-center rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 px-4 text-sm font-bold text-white shadow transition disabled:bg-slate-200"
         >
-          Next →
+          <span className="hidden sm:inline">Next →</span>
+          <span className="sm:hidden">→</span>
         </button>
       </div>
 
       {/* Summary */}
-      <div className="text-sm font-semibold text-slate-600 max-[600px]:text-xs">
-        Showing page {currentPage} ({totalItems} items total)
+      <div className="text-xs font-semibold text-slate-600">
+        {totalItems} items total
       </div>
     </div>
   );

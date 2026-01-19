@@ -2,3 +2,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@media screen and (max-width: 768px) and (orientation: portrait) {
+  body::before {
+    content: "Display not supported in portrait mode.\A Please rotate your device.";
+    position: fixed;
+    inset: 0;
+    background: #0f172a;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 24px;
+    z-index: 9999;
+    white-space: pre-line;
+  }
+
+  #root {
+    display: none;
+  }
+}
