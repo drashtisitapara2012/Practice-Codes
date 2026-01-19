@@ -61,8 +61,8 @@ const TodoItem = ({ todo, onEdit }) => {
           onClick={handleDeleteClick}
           className={`min-w-[70px] h-9 text-xs font-semibold rounded-md bg-gradient-to-br from-red-500 to-red-600 text-white shadow-[0_4px_12px_rgba(255,107,107,0.3)] transition-all duration-300 ease-in-out hover:-translate-y-[2px] hover:shadow-[0_6px_16px_rgba(255,107,107,0.4)] active:translate-y-0
             ${todo.completed
-              ? "bg-gradient-to-br from-[#84fab0] to-[#6fd89f] text-white shadow-[0_4px_12px_rgba(132,250,176,0.3)] hover:shadow-[0_6px_16px_rgba(132,250,176,0.4)]"
-              : "bg-gradient-to-br from-red-500 to-red-600 text-white hover:-translate-y-[2px] hover:shadow-[0_6px_16px_rgba(255,107,107,0.4)] active:translate-y-0"
+              ? "bg-gradient-to-br from-green-500 to-green-600 shadow-[0_4px_12px_rgba(34,197,94,0.35)] hover:shadow-[0_6px_16px_rgba(34,197,94,0.45)]"
+              : "bg-gradient-to-br from-red-500 to-red-600 shadow-[0_4px_12px_rgba(255,107,107,0.3)] hover:shadow-[0_6px_16px_rgba(255,107,107,0.4)]"
             }`}
         >
           {todo.completed ? "Clean Up" : "Delete"}

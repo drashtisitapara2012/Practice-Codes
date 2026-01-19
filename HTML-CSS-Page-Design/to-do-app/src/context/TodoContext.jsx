@@ -29,6 +29,7 @@ export const TodoProvider = ({ children }) => {
           priority: "Medium",
           dueDate: "",
          createdAt: Date.now() - t.id * 1000,
+         reminderAt:null,
         }));
         setTodos(normalizedTodos);
       } catch (err) {

@@ -91,11 +91,11 @@ const AddTodoModal = ({ onClose, editingTodo = null }) => {
   return (
   <div
     className="fixed inset-0 z-10 flex justify-center bg-black/30 pt-16 animate-fadeIn"
-    onClick={onClose}   // ✅ close when clicking outside
+    onClick={onClose}   
   >
     <div
       className="w-[420px] rounded-xl border border-slate-300/20 bg-gradient-to-br from-white to-slate-100 p-7 shadow-xl animate-slideUp max-w-[90%]"
-      onClick={(e) => e.stopPropagation()} // ✅ prevent closing when clicking inside
+      onClick={(e) => e.stopPropagation()} 
     >
       <h2 className="mb-5 text-[22px] font-bold text-slate-600">
         {editingTodo ? "Edit TODO" : "Add New TODO"}
