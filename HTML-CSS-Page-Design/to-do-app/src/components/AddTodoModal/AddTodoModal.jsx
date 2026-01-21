@@ -361,8 +361,8 @@ const AddTodoModal = ({ onClose, editingTodo = null }) => {
         onClick={(e) => e.stopPropagation()}
       >
         <h2 className="mb-5 text-[22px] font-bold text-slate-600">
-          {editingTodo 
-            ? getText('editTodoTitle', 'Edit TODO') 
+          {editingTodo
+            ? getText('editTodoTitle', 'Edit TODO')
             : getText('addTodoTitle', 'Add New TODO')
           }
         </h2>
@@ -393,8 +393,11 @@ const AddTodoModal = ({ onClose, editingTodo = null }) => {
           {/* Description */}
           <div className="mb-4 flex flex-col">
             <label className="mb-2 text-sm font-semibold text-slate-500">
-              {getText('descriptionLabel', 'Description')} ({getText('maxText', 'max')} {MAX_DESCRIPTION_LENGTH} {getText('charactersText', 'characters')})
+              {getText('descriptionLabel', 'Description')} (
+              {getText('maxText', 'max')} {MAX_DESCRIPTION_LENGTH}{' '}
+              {getText('charactersText', 'characters')})
             </label>
+
             <textarea
               value={description}
               onChange={(e) => {
@@ -402,16 +405,25 @@ const AddTodoModal = ({ onClose, editingTodo = null }) => {
                 setErrors({ ...errors, description: "" });
               }}
               maxLength={MAX_DESCRIPTION_LENGTH}
-              placeholder={getText('descriptionPlaceholder', `Enter description (${description.length}/${MAX_DESCRIPTION_LENGTH})`)}
+              placeholder={getText(
+                'descriptionPlaceholder',
+                `Enter description (${description.length}/${MAX_DESCRIPTION_LENGTH})`
+              )}
               className="h-20 resize-none rounded-md border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-slate-400 focus:bg-slate-50 focus:ring-2 focus:ring-slate-300/30"
             />
-            <small className="mt-1 text-right text-xs text-slate-400">
-              {description.length}/{MAX_DESCRIPTION_LENGTH}
-            </small>
-            {errors.description && (
-              <p className="mt-1 text-xs text-left text-red-500">{errors.description}</p>
-            )}
+
+            {/* Error + character count in one line */}
+            <div className="mt-1 flex items-center justify-between text-xs">
+              <span className={errors.description ? "text-red-500" : "invisible"}>
+                {errors.description || "placeholder"}
+              </span>
+
+              <span className="text-slate-400">
+                {description.length}/{MAX_DESCRIPTION_LENGTH}
+              </span>
+            </div>
           </div>
+
 
           {/* Priority */}
           <div className="mb-4 flex flex-col">
@@ -494,8 +506,8 @@ const AddTodoModal = ({ onClose, editingTodo = null }) => {
               type="submit"
               className="h-10 min-w-[90px] rounded-md bg-gradient-to-r from-indigo-500 to-purple-600 text-sm font-semibold text-white transition hover:-translate-y-1 hover:shadow-lg hover:shadow-indigo-400/40"
             >
-              {editingTodo 
-                ? getText('updateButton', 'Update') 
+              {editingTodo
+                ? getText('updateButton', 'Update')
                 : getText('addButton', 'Add')
               }
             </button>
