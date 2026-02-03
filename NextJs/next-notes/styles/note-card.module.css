@@ -1,0 +1,80 @@
+.card {
+  border: 1px solid var(--border);
+  padding: 20px;
+  border-radius: 12px;
+  background: var(--background);
+  box-shadow: var(--shadow);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.card:hover {
+  border-color: var(--primary-light);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+.card h3 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 1.25rem;
+  color: var(--foreground);
+  word-break: break-word;
+}
+
+.card p {
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+  flex-grow: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.link {
+  text-decoration: none;
+  font-weight: 500;
+  color: var(--primary);
+  align-self: flex-start;
+  padding: 4px 0;
+}
+
+.link:hover {
+  color: var(--primary-light);
+  text-decoration: underline;
+}
+
+.bookmarkBtn {
+  margin-top: auto;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  background-color: var(--background);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--foreground);
+}
+
+.bookmarkBtn:hover {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow);
+}
+
+.bookmarkBtn:active {
+  transform: scale(0.96);
+}
+
+/* focus (accessibility) */
+.bookmarkBtn:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
