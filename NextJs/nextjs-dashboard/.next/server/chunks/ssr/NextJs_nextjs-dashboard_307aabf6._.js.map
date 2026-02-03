@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///D:/Maruti%20Techlabs/Practice-Codes/NextJs/nextjs-dashboard/app/layout.tsx"],"sourcesContent":["import '@/app/ui/global.css';\r\nimport { inter } from '@/app/ui/fonts';\r\n\r\nexport default function RootLayout({\r\n  children,\r\n}: {\r\n  children: React.ReactNode;\r\n}) {\r\n  return (\r\n    <html lang=\"en\">\r\n      <body className={`$(inter.className} antialiased)`}>{children}</body>\r\n    </html>\r\n  );\r\n} \r\n"],"names":[],"mappings":";;;;;;;AAGe,SAAS,WAAW,EACjC,QAAQ,EAGT;IACC,qBACE,+QAAC;QAAK,MAAK;kBACT,cAAA,+QAAC;YAAK,WAAW,CAAC,+BAA+B,CAAC;sBAAG;;;;;;;;;;;AAG3D","debugId":null}},
+    {"offset": {"line": 32, "column": 0}, "map": {"version":3,"sources":["file:///D:/Maruti%20Techlabs/Practice-Codes/NextJs/nextjs-dashboard/node_modules/next/src/server/route-modules/app-page/vendored/rsc/react-jsx-dev-runtime.ts"],"sourcesContent":["module.exports = (\n  require('../../module.compiled') as typeof import('../../module.compiled')\n).vendored['react-rsc']!.ReactJsxDevRuntime\n"],"names":["module","exports","require","vendored","ReactJsxDevRuntime"],"mappings":"AAAAA,OAAOC,OAAO,GACZC,QAAQ,oJACRC,QAAQ,CAAC,YAAY,CAAEC,kBAAkB","ignoreList":[0],"debugId":null}}]
+}
