@@ -24,3 +24,25 @@ export interface GitHubSearchResponse {
   incomplete_results: boolean;
   items: GitHubUser[];
 }
+
+export interface GitHubRepository {
+  id: number;
+  name: string;
+  full_name: string;
+  description: string;
+  html_url: string;
+  stargazers_count: number;
+  forks_count: number;
+  watchers_count: number;
+  language: string;
+  owner: {
+    login: string;
+    avatar_url: string;
+  };
+}
+
+export interface GitHubRepoSearchResponse {
+  total_count: number;
+  incomplete_results: boolean;
+  items: GitHubRepository[];
+}
