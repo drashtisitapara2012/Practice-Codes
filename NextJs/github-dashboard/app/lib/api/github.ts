@@ -1,14 +1,24 @@
 import { GitHubSearchResponse, GitHubUser } from '@/app/types/github';
 
-const GITHUB_API_BASE = 'https://api.github.com';
+const GITHUB_API_BASE = process.env.GITHUB_API_BASE_URL || 'https://api.github.com';
 
-export async function searchGitHubUsers(query: string): Promise<GitHubSearchResponse> {
+export async function searchGitHubUsers(
+  query: string, 
+  page: number = 1, 
+  perPage: number = 10
+): Promise<GitHubSearchResponse> {
   if (!query.trim()) {
     throw new Error('Search query cannot be empty');
   }
 
+  const searchParams = new URLSearchParams({
+    q: query,
+    page: page.toString(),
+    per_page: perPage.toString(),
+  });
+
   const response = await fetch(
-    `${GITHUB_API_BASE}/search/users?q=${encodeURIComponent(query)}`,
+    `${GITHUB_API_BASE}/search/users?${searchParams}`,
     {
       headers: {
         'Accept': 'application/vnd.github.v3+json',
