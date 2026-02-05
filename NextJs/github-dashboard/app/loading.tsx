@@ -7,7 +7,7 @@ export default function Loading() {
                     <div className="absolute inset-0 w-16 h-16 border-t-4 border-blue-600 rounded-full animate-spin"></div>
                 </div>
                 <p className="text-gray-500 dark:text-gray-400 font-medium animate-pulse">
-                    Loading amazing repositories...
+                    Initializing Experience...
                 </p>
             </div>
         </div>

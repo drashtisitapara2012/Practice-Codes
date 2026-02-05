@@ -38,9 +38,25 @@ export async function GET(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Internal server error:', error);
+    console.error('Search API error:', error);
     
     if (error instanceof Error) {
+      // Check if it's a rate limit error
+      if (error.message.includes('rate limit')) {
+        return NextResponse.json(
+          { error: error.message },
+          { status: 429 }
+        );
+      }
+      
+      // Check if it's a validation error
+      if (error.message.includes('Invalid search query')) {
+        return NextResponse.json(
+          { error: error.message },
+          { status: 400 }
+        );
+      }
+      
       return NextResponse.json(
         { error: error.message },
         { status: 500 }
