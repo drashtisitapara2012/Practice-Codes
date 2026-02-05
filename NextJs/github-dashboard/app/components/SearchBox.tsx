@@ -18,10 +18,10 @@ export default function SearchBox({ onSearch, isLoading = false, value }: Search
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     if (value !== undefined) {
-      // If controlled, call onSearch with new value
+      // If controlled, call onSearch with new value. Controlled input managed by react state
       onSearch(newValue);
     } else {
-      // If uncontrolled, update local state
+      // If uncontrolled, update local state. Uncontrolled input managed by DOM
       setLocalQuery(newValue);
     }
   };

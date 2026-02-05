@@ -3,8 +3,8 @@ import { GitHubSearchResponse, GitHubUser } from '@/app/types/github';
 const GITHUB_API_BASE = process.env.GITHUB_API_BASE_URL || 'https://api.github.com';
 
 export async function searchGitHubUsers(
-  query: string, 
-  page: number = 1, 
+  query: string,
+  page: number = 1,
   perPage: number = 10
 ): Promise<GitHubSearchResponse> {
   if (!query.trim()) {
@@ -27,9 +27,13 @@ export async function searchGitHubUsers(
       cache: 'no-store',
     }
   );
+  console.log(`${GITHUB_API_BASE}/search/users?${searchParams}`);
 
   if (!response.ok) {
+
+    console.log("response log : ",response);
     throw new Error(`GitHub API error: ${response.status}`);
+  
   }
 
   return response.json();
@@ -55,6 +59,29 @@ export async function getUserDetails(username: string): Promise<GitHubUser> {
     if (response.status === 404) {
       throw new Error('User not found');
     }
+    throw new Error(`GitHub API error: ${response.status}`);
+  }
+
+  return response.json();
+}
+export async function getGitHubUsers(since: number = 0, perPage: number = 30): Promise<GitHubUser[]> {
+  const searchParams = new URLSearchParams({
+    since: since.toString(),
+    per_page: perPage.toString(),
+  });
+
+  const response = await fetch(
+    `${GITHUB_API_BASE}/users?${searchParams}`,
+    {
+      headers: {
+        'Accept': 'application/vnd.github.v3+json',
+        'User-Agent': 'GitHub-Dashboard-App',
+      },
+      cache: 'no-store',
+    }
+  );
+
+  if (!response.ok) {
     throw new Error(`GitHub API error: ${response.status}`);
   }
 
