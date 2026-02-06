@@ -1,6 +1,20 @@
 import { GitHubSearchResponse, GitHubUser } from '@/app/types/github';
 
 const GITHUB_API_BASE = process.env.GITHUB_API_BASE_URL || 'https://api.github.com';
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+
+function getGitHubHeaders(): HeadersInit {
+  const headers: HeadersInit = {
+    'Accept': 'application/vnd.github.v3+json',
+    'User-Agent': 'GitHub-Dashboard-App',
+  };
+
+  if (GITHUB_TOKEN) {
+    headers['Authorization'] = `token ${GITHUB_TOKEN}`;
+  }
+
+  return headers;
+}
 
 export async function searchGitHubUsers(
   query: string,
@@ -20,20 +34,14 @@ export async function searchGitHubUsers(
   const response = await fetch(
     `${GITHUB_API_BASE}/search/users?${searchParams}`,
     {
-      headers: {
-        'Accept': 'application/vnd.github.v3+json',
-        'User-Agent': 'GitHub-Dashboard-App',
-      },
+      headers: getGitHubHeaders(),
       cache: 'no-store',
     }
   );
-  console.log(`${GITHUB_API_BASE}/search/users?${searchParams}`);
 
   if (!response.ok) {
-
-    console.log("response log : ",response);
+    console.log("response log : ", response);
     throw new Error(`GitHub API error: ${response.status}`);
-  
   }
 
   return response.json();
@@ -47,10 +55,7 @@ export async function getUserDetails(username: string): Promise<GitHubUser> {
   const response = await fetch(
     `${GITHUB_API_BASE}/users/${encodeURIComponent(username)}`,
     {
-      headers: {
-        'Accept': 'application/vnd.github.v3+json',
-        'User-Agent': 'GitHub-Dashboard-App',
-      },
+      headers: getGitHubHeaders(),
       cache: 'no-store',
     }
   );
@@ -64,6 +69,7 @@ export async function getUserDetails(username: string): Promise<GitHubUser> {
 
   return response.json();
 }
+
 export async function getGitHubUsers(since: number = 0, perPage: number = 30): Promise<GitHubUser[]> {
   const searchParams = new URLSearchParams({
     since: since.toString(),
@@ -73,10 +79,7 @@ export async function getGitHubUsers(since: number = 0, perPage: number = 30): P
   const response = await fetch(
     `${GITHUB_API_BASE}/users?${searchParams}`,
     {
-      headers: {
-        'Accept': 'application/vnd.github.v3+json',
-        'User-Agent': 'GitHub-Dashboard-App',
-      },
+      headers: getGitHubHeaders(),
       cache: 'no-store',
     }
   );

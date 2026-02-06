@@ -1,14 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getUserDetails as getGitHubUserDetails } from '@/app/lib/api/github';
-
-interface FilteredUser {
-  name: string | null;
-  bio: string | null;
-  followers: number;
-  following: number;
-  public_repos: number;
-  login: string;
-}
+import { GitHubUser } from '@/app/types/github';
 
 export async function GET(
   request: NextRequest,
@@ -33,14 +25,23 @@ export async function GET(
       );
     }
 
-    // Filter the response to only include the required fields
-    const filteredData: FilteredUser = {
-      name: userData.name || null,
-      bio: userData.bio || null,
+    // Returning enriched data for caching and sorting
+    const filteredData: Partial<GitHubUser> = {
+      id: userData.id,
+      login: userData.login,
+      avatar_url: userData.avatar_url,
+      html_url: userData.html_url,
+      type: userData.type,
+      site_admin: userData.site_admin,
+      name: userData.name || undefined,
+      bio: userData.bio || undefined,
       followers: userData.followers,
       following: userData.following,
       public_repos: userData.public_repos,
-      login: userData.login,
+      created_at: userData.created_at, // Essential for sorting
+      location: userData.location || undefined,
+      company: userData.company || undefined,
+      blog: userData.blog || undefined,
     };
 
     return NextResponse.json({
@@ -49,8 +50,7 @@ export async function GET(
     });
   } catch (error) {
     console.error('Error fetching user details:', error);
-    
-    // Handle GitHub API 404 errors
+
     if (error instanceof Error && error.message === 'User not found') {
       return NextResponse.json(
         { success: false, error: 'User not found' },

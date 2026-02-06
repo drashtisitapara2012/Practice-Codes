@@ -2,62 +2,63 @@
 
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
+import { useAppStore } from '@/app/lib/store';
+import { Moon, Sun, Monitor } from 'lucide-react';
 
 export default function ThemeToggle() {
-  const { theme,resolvedTheme, setTheme } = useTheme();
-    const [mounted, setMounted] = useState(false);
+  const { theme: nextTheme, setTheme: setNextTheme, resolvedTheme } = useTheme();
+  const { theme: storeTheme, setTheme: setStoreTheme } = useAppStore();
+  const [mounted, setMounted] = useState(false);
 
-      useEffect(() => {
+  // Sync Zustand store with next-themes on mount or change
+  useEffect(() => {
     setMounted(true);
-  }, []);
+    if (nextTheme) {
+      setStoreTheme(nextTheme as 'light' | 'dark' | 'system');
+    }
+  }, [nextTheme, setStoreTheme]);
 
   const toggleTheme = () => {
-    if (theme === 'light') {
-      setTheme('dark');
-    } else if (theme === 'dark') {
-      setTheme('system');
+    let newTheme: 'light' | 'dark' | 'system';
+    if (storeTheme === 'light') {
+      newTheme = 'dark';
+    } else if (storeTheme === 'dark') {
+      newTheme = 'system';
     } else {
-      setTheme('light');
+      newTheme = 'light';
     }
+
+    setStoreTheme(newTheme);
+    setNextTheme(newTheme);
   };
 
   const getThemeIcon = () => {
-    if (!mounted) return null;
+    if (!mounted) return <Monitor className="w-5 h-5" />;
+
     if (resolvedTheme === 'light') {
-      return (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-        </svg>
-      );
+      return <Sun className="w-5 h-5 text-amber-500" />;
     } else if (resolvedTheme === 'dark') {
-      return (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-        </svg>
-      );
-    } else {
-      return (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-        </svg>
-      );
+      return <Moon className="w-5 h-5 text-indigo-400" />;
     }
+    return <Monitor className="w-5 h-5" />;
   };
 
   const getThemeLabel = () => {
-    if (!mounted) return '';
-    return theme === 'system' ? 'System' : resolvedTheme;
+    if (!mounted) return 'Loading...';
+    return storeTheme.charAt(0).toUpperCase() + storeTheme.slice(1);
   };
 
   return (
     <button
       onClick={toggleTheme}
       disabled={!mounted}
-      className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200"
-      title={`Current theme: ${getThemeLabel()}. Click to cycle through themes.`}
+      className="flex items-center gap-3 px-4 py-2.5 rounded-2xl bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300 shadow-sm border border-gray-100 dark:border-gray-700 group"
+      title={`Current theme: ${getThemeLabel()}. Click to cycle.`}
     >
-      {getThemeIcon()}
-      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+      <div className="transition-transform duration-500 group-hover:rotate-12">
+        {getThemeIcon()}
+      </div>
+      <span className="text-sm font-bold text-gray-700 dark:text-gray-300 min-w-[50px] text-left">
         {getThemeLabel()}
       </span>
     </button>
