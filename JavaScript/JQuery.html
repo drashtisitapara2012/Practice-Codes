@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JQuery</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <h2>Finding HTML Elements by Id</h2>
+    <p id="id01">Hello World!</p>
+    <p>Hello Sweden!</p>
+    <p class="intro">Hello Japan!</p>
+
+    <p id="demo"></p>
+    <p id="demo1"></p>
+    <p id="demo2"></p>
+
+    <script>
+        $(document).ready(function () {
+            var myElements = $("#id01");
+            $("#demo").text("The text from the id01 paragraph is: " + myElements[0].innerHTML);
+
+            var mypElements = $("p");
+            $("#demo1").text("The text in the second paragraph is: " + mypElements[1].innerHTML);
+
+            var mycElement = $(".intro");
+            $("#demo2").text("the third paragraph with class=intro is :" + mycElement[2].innerHTML);
+        });
+    </script>
+</body>
+
+</html>

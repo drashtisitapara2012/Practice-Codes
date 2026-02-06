@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///home/drashtisitapara/Desktop/Practice_codes/NextJs/nextjs-dashboard/app/layout.tsx"],"sourcesContent":["import '@/app/ui/global.css';\nimport { inter } from '@/app/ui/fonts';\n\nexport default function RootLayout({\n  children,\n}: {\n  children: React.ReactNode;\n}) {\n  return (\n    <html lang=\"en\">\n      <body className={`$(inter.className} antialiased)`}>{children}</body>\n    </html>\n  );\n} \n"],"names":[],"mappings":";;;;;;;AAGe,SAAS,WAAW,EACjC,QAAQ,EAGT;IACC,qBACE,+QAAC;QAAK,MAAK;kBACT,cAAA,+QAAC;YAAK,WAAW,CAAC,+BAA+B,CAAC;sBAAG;;;;;;;;;;;AAG3D","debugId":null}},
-    {"offset": {"line": 32, "column": 0}, "map": {"version":3,"sources":["file:///home/drashtisitapara/Desktop/Practice_codes/NextJs/nextjs-dashboard/node_modules/next/src/server/route-modules/app-page/vendored/rsc/react-jsx-dev-runtime.ts"],"sourcesContent":["module.exports = (\n  require('../../module.compiled') as typeof import('../../module.compiled')\n).vendored['react-rsc']!.ReactJsxDevRuntime\n"],"names":["module","exports","require","vendored","ReactJsxDevRuntime"],"mappings":"AAAAA,OAAOC,OAAO,GACZC,QAAQ,oJACRC,QAAQ,CAAC,YAAY,CAAEC,kBAAkB","ignoreList":[0],"debugId":null}}]
-}

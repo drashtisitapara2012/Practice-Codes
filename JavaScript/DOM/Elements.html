@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Element</title>
+</head>
+
+<body>
+    <h2>Document Element Properties and Methods</h2>
+    <p id="intro">Finding HTML Elements by Id</p>
+
+    <p>Finding HTML Elements by Tag Name</p>
+
+    <p class="intro">Hello World!</p>
+    <p class="intro">Goodbye World!</p>
+        <p id="demo"></p>
+
+    <form id="frm1">
+        First name: <input type="text" name="fname" value="Donald"><br>
+        Last name: <input type="text" name="lname" value="Duck"><br><br>
+        <input type="submit" value="Submit">
+    </form>
+    <p>These are the values of each element in the form:</p>
+    <p id="frmdata"></p>
+
+    <script>
+        //get element by id
+        const element = document.getElementById("intro");
+        document.getElementById("demo").innerHTML = "The content of this paragraph is: " + element.innerHTML;
+
+        //get element by Tag Name
+        const elements = document.getElementsByTagName("p");
+        document.getElementById("demo").innerHTML += "<br>Number of paragraph elements: " + elements[1].innerHTML;;
+
+        //get element by Class Name
+        const classElements = document.getElementsByClassName("intro");
+        document.getElementById("demo").innerHTML += "<br>Content of class intro: " + classElements[1].innerHTML;
+
+        //get element by HTML object collection
+        const frm = document.forms("frm1");
+        const txt = "";
+        for (let i = 0; i < frm.elements.length; i++) {
+            txt += frm.elements[i].value + "<br>";
+        }
+        document.getElementById("frmdata").innerHTML = "<br>" + txt;
+    </script>
+</body>
+
+</html>

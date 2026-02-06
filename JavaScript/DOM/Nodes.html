@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nodes</title>
+</head>
+
+<body>
+    <h2>JavaScript HTML DOM</h2>
+    <p>Add a new HTML Element.</p>
+
+    <div id="div1">
+        <p id="p1">This is a paragraph.</p>
+        <p id="p2">This is another paragraph.</p>
+    </div>
+
+    <script>
+        const para = document.createElement("p");  //creates a new <p> element:
+        const node = document.createTextNode("This is new.");  //creates a text node to add text to <p> element
+        para.appendChild(node);  //append the text node to the <p> element:
+        // const element = document.getElementById("div1");   // append the new element to an existing element.
+        // element.appendChild(para);
+
+        const element1 = document.getElementById("div1");
+        const child = document.getElementById("p1");
+        element1.insertBefore(para, child);
+
+        const ele = document.getElementById("p1");
+        ele.remove();
+
+        const parent = document.getElementById("div1");
+        const child1 = document.getElementById("p1");
+        parent.replaceChild(para, child1);
+    </script>
+</body>
+
+</html>
