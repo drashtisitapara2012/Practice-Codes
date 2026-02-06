@@ -94,7 +94,7 @@ export default function UserProfile() {
           <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl shadow-gray-200 dark:shadow-none border border-gray-100 dark:border-gray-700 overflow-hidden animate-in fade-in zoom-in-95 duration-500">
             <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 h-48 relative">
               <h1 className="text-4xl px-8 pt-10 font-black text-gray-900 dark:text-white mb-1">
-                    {user!.name || user!.login}
+                    {user!.login}
                   </h1>
             </div>
 

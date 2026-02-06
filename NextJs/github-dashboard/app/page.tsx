@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import SearchBox from '@/app/components/SearchBox';
 import ThemeToggle from '@/app/components/ThemeToggle';
@@ -8,15 +7,18 @@ import { GitHubUser } from '@/app/types/github';
 import Link from 'next/link';
 import { useDebounce } from '@/app/hooks/useDebounce';
 import { DataTable } from '@/app/components/DataTable';
-import { ColumnDef, PaginationState } from '@tanstack/react-table';
-import { ExternalLink, User as UserIcon } from 'lucide-react';
+import { ColumnDef } from '@tanstack/react-table';
+import { ExternalLink, User as UserIcon, Calendar } from 'lucide-react';
 import Image from 'next/image';
+import { useAppStore } from '@/app/lib/store';
 
 const usersPerPage = 10;
 
+// Simple in-memory cache for user details to avoid redundant API calls
+const userCache = new Map<string, GitHubUser>();
+
 async function fetchGitHubUsers(query: string, page: number) {
   let response;
-  // page passed here is starting from 0 for manual pagination in TanStack
   const apiPage = page + 1;
   if (query.trim()) {
     response = await fetch(`/api/github/search?q=${encodeURIComponent(query)}&page=${apiPage}&per_page=${usersPerPage}`);
@@ -38,14 +40,34 @@ async function fetchGitHubUsers(query: string, page: number) {
   const items = Array.isArray(result.data) ? result.data : result.data?.items || [];
   const total = result.data?.total_count ?? (Array.isArray(result.data) ? 2000 : 0);
 
-  // Limit search to 10 pages (100 results)
+  // Enrich data with creation time (created_at) by fetching individual user details
+  const enrichedItems = await Promise.all(items.map(async (user: GitHubUser) => {
+    if (userCache.has(user.login)) {
+      return { ...user, ...userCache.get(user.login) };
+    }
+
+    try {
+      const detailRes = await fetch(`/api/github/user/${user.login}`);
+      if (detailRes.ok) {
+        const detailData = await detailRes.json();
+        if (detailData.success && detailData.data) {
+          userCache.set(user.login, detailData.data);
+          return { ...user, ...detailData.data };
+        }
+      }
+    } catch (e) {
+      console.error(`Failed to fetch details for ${user.login}:`, e);
+    }
+    return user;
+  }));
+
   const isSearch = query.trim() !== '';
   const searchLimit = 90;
   const cappedTotal = isSearch ? Math.min(total, searchLimit) : 2000;
   const cappedPages = isSearch ? Math.min(Math.ceil(total / usersPerPage), 9) : 200;
 
   return {
-    items,
+    items: enrichedItems,
     totalCount: cappedTotal,
     totalPages: cappedPages,
     actualTotal: total,
@@ -53,29 +75,26 @@ async function fetchGitHubUsers(query: string, page: number) {
 }
 
 export default function Home() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [pagination, setPagination] = useState<PaginationState>({
-    pageIndex: 0,
-    pageSize: usersPerPage,
-  });
+  const { searchQuery, setSearchQuery, pageIndex, setPageIndex } = useAppStore();
 
   const debouncedSearchQuery = useDebounce(searchQuery, 1000);
   const isDebouncing = searchQuery !== debouncedSearchQuery && searchQuery !== '';
 
   const { data, isLoading, error, isFetching } = useQuery({
-    queryKey: ['githubUsers', debouncedSearchQuery, pagination.pageIndex],
-    queryFn: () => fetchGitHubUsers(debouncedSearchQuery, pagination.pageIndex),
+    queryKey: ['githubUsers', debouncedSearchQuery, pageIndex],
+    queryFn: () => fetchGitHubUsers(debouncedSearchQuery, pageIndex),
     placeholderData: (previousData) => previousData,
+    staleTime: 5 * 60 * 1000,
   });
 
   const handleSearchChange = (query: string) => {
     setSearchQuery(query);
-    setPagination(prev => ({ ...prev, pageIndex: 0 })); // Reset to first page
   };
 
   const users = data?.items || [];
   const totalCount = data?.totalCount || 0;
   const totalPages = data?.totalPages || 0;
+  const pagination = { pageIndex, pageSize: usersPerPage };
 
   const columns: ColumnDef<GitHubUser>[] = [
     {
@@ -112,6 +131,29 @@ export default function Home() {
           {row.original.type}
         </span>
       ),
+    },
+    {
+      accessorKey: "created_at",
+      header: "Joined",
+      enableSorting: true,
+      meta: { className: "hidden lg:table-cell" },
+      cell: ({ row }) => {
+        const date = row.original.created_at;
+        if (!date) return <span className="text-gray-400 italic">...</span>;
+
+        return (
+          <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+            <Calendar size={14} className="opacity-70" />
+            <span className="text-sm font-medium">
+              {new Date(date).toLocaleDateString(undefined, {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+              })}
+            </span>
+          </div>
+        );
+      },
     },
     {
       accessorKey: "site_admin",
@@ -238,9 +280,9 @@ export default function Home() {
                         {totalCount.toLocaleString()} Total
                       </span>
                     </div>
-                    {searchQuery.trim() && (data as any)?.actualTotal > 90 && pagination.pageIndex >= 8 && (
+                    {searchQuery.trim() && (data as any)?.actualTotal > 90 && pageIndex >= 8 && (
                       <p className="p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 text-amber-700 dark:text-amber-400 rounded-xl text-sm font-medium animate-in fade-in slide-in-from-top-1">
-                         Note: Further pages are disabled for this search. You have reached the maximum accessible page (Page 9).
+                        Note: Further pages are disabled for this search. You have reached the maximum accessible page (Page 9).
                       </p>
                     )}
                   </div>
@@ -253,7 +295,7 @@ export default function Home() {
                       pageCount={totalPages}
                       pagination={pagination}
                       onPaginationChange={(newPagination) => {
-                        setPagination(newPagination);
+                        setPageIndex(newPagination.pageIndex);
                         window.scrollTo({ top: 0, behavior: 'smooth' });
                       }}
                     />
