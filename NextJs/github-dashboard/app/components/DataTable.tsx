@@ -68,8 +68,12 @@ export function DataTable<TData, TValue>({
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id} className="hover:bg-transparent border-gray-100 dark:border-gray-800">
                                 {headerGroup.headers.map((header) => {
+                                    const columnMeta = header.column.columnDef.meta as { className?: string } | undefined;
                                     return (
-                                        <TableHead key={header.id} className="text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider text-xs py-5 px-6">
+                                        <TableHead
+                                            key={header.id}
+                                            className={`text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider text-xs py-5 px-6 ${columnMeta?.className || ""}`}
+                                        >
                                             {header.isPlaceholder ? null : (
                                                 <div
                                                     className={
@@ -107,11 +111,17 @@ export function DataTable<TData, TValue>({
                                     data-state={row.getIsSelected() && 'selected'}
                                     className="hover:bg-gray-50/50 dark:hover:bg-gray-900/30 border-gray-100 dark:border-gray-800 transition-colors group"
                                 >
-                                    {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id} className="py-4 px-6 text-gray-700 dark:text-gray-300">
-                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                        </TableCell>
-                                    ))}
+                                    {row.getVisibleCells().map((cell) => {
+                                        const columnMeta = cell.column.columnDef.meta as { className?: string } | undefined;
+                                        return (
+                                            <TableCell
+                                                key={cell.id}
+                                                className={`py-4 px-6 text-gray-700 dark:text-gray-300 ${columnMeta?.className || ""}`}
+                                            >
+                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                            </TableCell>
+                                        );
+                                    })}
                                 </TableRow>
                             ))
                         ) : (
@@ -133,20 +143,21 @@ export function DataTable<TData, TValue>({
             </div>
 
             {/* TanStack Pagination Controls */}
-            <div className="flex items-center justify-between px-2">
-                <div className="flex-1 text-sm text-gray-500 dark:text-gray-400">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-2">
+                <div className="text-sm text-gray-500 dark:text-gray-400 order-2 sm:order-1 self-start sm:self-auto">
                     Total results: <span className="font-bold text-gray-900 dark:text-white">{(pageCount || 0) * (pagination?.pageSize || 10)}</span>
                 </div>
-                <div className="flex items-center space-x-6 lg:space-x-8">
-                    <div className="flex items-center justify-center text-sm font-medium text-gray-700 dark:text-gray-300">
+                <div className="flex flex-row flex-wrap items-center justify-center gap-3 sm:gap-6 lg:gap-8 order-1 sm:order-2 w-full sm:w-auto">
+                    <div className="flex items-center justify-center text-sm font-medium text-gray-700 dark:text-gray-300 whitespace-nowrap">
                         Page {table.getState().pagination.pageIndex + 1} of{" "}
                         {table.getPageCount()}
                     </div>
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-1 sm:space-x-2">
                         <button
                             className="p-2 rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                             onClick={() => table.setPageIndex(0)}
                             disabled={!table.getCanPreviousPage()}
+                            title="First Page"
                         >
                             <ChevronsLeft className="w-5 h-5" />
                         </button>
@@ -154,6 +165,7 @@ export function DataTable<TData, TValue>({
                             className="p-2 rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                             onClick={() => table.previousPage()}
                             disabled={!table.getCanPreviousPage()}
+                            title="Previous Page"
                         >
                             <ChevronLeft className="w-5 h-5" />
                         </button>
@@ -161,6 +173,7 @@ export function DataTable<TData, TValue>({
                             className="p-2 rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                             onClick={() => table.nextPage()}
                             disabled={!table.getCanNextPage()}
+                            title="Next Page"
                         >
                             <ChevronRight className="w-5 h-5" />
                         </button>
@@ -168,6 +181,7 @@ export function DataTable<TData, TValue>({
                             className="p-2 rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                             onClick={() => table.setPageIndex(table.getPageCount() - 1)}
                             disabled={!table.getCanNextPage()}
+                            title="Last Page"
                         >
                             <ChevronsRight className="w-5 h-5" />
                         </button>

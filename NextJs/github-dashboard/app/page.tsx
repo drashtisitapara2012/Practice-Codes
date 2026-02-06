@@ -38,10 +38,17 @@ async function fetchGitHubUsers(query: string, page: number) {
   const items = Array.isArray(result.data) ? result.data : result.data?.items || [];
   const total = result.data?.total_count ?? (Array.isArray(result.data) ? 2000 : 0);
 
+  // Limit search to 10 pages (100 results)
+  const isSearch = query.trim() !== '';
+  const searchLimit = 90;
+  const cappedTotal = isSearch ? Math.min(total, searchLimit) : 2000;
+  const cappedPages = isSearch ? Math.min(Math.ceil(total / usersPerPage), 9) : 200;
+
   return {
     items,
-    totalCount: query.trim() ? total : 2000,
-    totalPages: query.trim() ? Math.ceil(total / usersPerPage) : 200, // 200 * 10 = 2000
+    totalCount: cappedTotal,
+    totalPages: cappedPages,
+    actualTotal: total,
   };
 }
 
@@ -90,9 +97,6 @@ export default function Home() {
               <span className="font-bold text-gray-900 dark:text-white leading-tight">
                 {user.login}
               </span>
-              <span className="text-xs text-gray-500 dark:text-gray-400">
-                ID: {user.id}
-              </span>
             </div>
           </div>
         );
@@ -102,6 +106,7 @@ export default function Home() {
       accessorKey: "type",
       header: "Account Type",
       enableSorting: true,
+      meta: { className: "hidden md:table-cell" },
       cell: ({ row }) => (
         <span className="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded-full text-xs font-bold uppercase tracking-wider border border-gray-200 dark:border-gray-700">
           {row.original.type}
@@ -112,6 +117,7 @@ export default function Home() {
       accessorKey: "site_admin",
       header: "Status",
       enableSorting: true,
+      meta: { className: "hidden sm:table-cell" },
       cell: ({ row }) => (
         <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border ${row.original.site_admin
           ? "bg-yellow-50 dark:bg-yellow-900/20 text-yellow-600 dark:text-yellow-500 border-yellow-200 dark:border-yellow-900/40"
@@ -157,10 +163,10 @@ export default function Home() {
           <div className="flex justify-end mb-4">
             <ThemeToggle />
           </div>
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
             GitHub User Dashboard
           </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-400 mb-6">
+          <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 mb-6 px-4">
             Search and explore GitHub users
           </p>
         </header>
@@ -175,12 +181,12 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="flex justify-center mb-12">
+        <div className="flex justify-center mb-12 px-4 sm:px-0">
           <Link
             href="/top-repos"
-            className="group flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold rounded-2xl shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:scale-105 transition-all duration-300"
+            className="group w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold rounded-2xl shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:scale-[1.02] sm:hover:scale-105 transition-all duration-300"
           >
-            View Top Repositories
+            <span>View Top Repositories</span>
           </Link>
         </div>
 
@@ -213,23 +219,30 @@ export default function Home() {
 
               {users.length > 0 && (
                 <div className="animate-in fade-in duration-500">
-                  <div className="flex items-center justify-between mb-8">
-                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
-                      {searchQuery.trim() ? (
-                        <>
-                          <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 rounded-lg text-sm uppercase tracking-wider font-black">Search</span>
-                          <span>Results for "{searchQuery}"</span>
-                        </>
-                      ) : (
-                        <>
-                          <span className="px-3 py-1 bg-green-100 dark:bg-green-900/40 text-green-600 dark:text-green-400 rounded-lg text-sm uppercase tracking-wider font-black">Explore</span>
-                          <span>All Users</span>
-                        </>
-                      )}
-                    </h2>
-                    <span className="bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 px-4 py-1.5 rounded-full text-sm font-bold border border-gray-200 dark:border-gray-700 shadow-sm">
-                      {totalCount.toLocaleString()} Total
-                    </span>
+                  <div className="flex flex-col gap-2 mb-8">
+                    <div className="flex items-center justify-between">
+                      <h2 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
+                        {searchQuery.trim() ? (
+                          <>
+                            <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 rounded-lg text-sm uppercase tracking-wider font-black">Search</span>
+                            <span>Results for "{searchQuery}"</span>
+                          </>
+                        ) : (
+                          <>
+                            <span className="px-3 py-1 bg-green-100 dark:bg-green-900/40 text-green-600 dark:text-green-400 rounded-lg text-sm uppercase tracking-wider font-black">Explore</span>
+                            <span>All Users</span>
+                          </>
+                        )}
+                      </h2>
+                      <span className="bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 px-4 py-1.5 rounded-full text-sm font-bold border border-gray-200 dark:border-gray-700 shadow-sm">
+                        {totalCount.toLocaleString()} Total
+                      </span>
+                    </div>
+                    {searchQuery.trim() && (data as any)?.actualTotal > 90 && pagination.pageIndex >= 8 && (
+                      <p className="p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 text-amber-700 dark:text-amber-400 rounded-xl text-sm font-medium animate-in fade-in slide-in-from-top-1">
+                         Note: Further pages are disabled for this search. You have reached the maximum accessible page (Page 9).
+                      </p>
+                    )}
                   </div>
 
                   <div className={`transition-opacity duration-300 ${isFetching ? 'opacity-50 pointer-events-none' : 'opacity-100'}`}>
