@@ -223,12 +223,21 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="flex justify-center mb-12 px-4 sm:px-0">
+        <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-12 px-4 sm:px-0">
           <Link
             href="/top-repos"
             className="group w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold rounded-2xl shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:scale-[1.02] sm:hover:scale-105 transition-all duration-300"
           >
             <span>View Top Repositories</span>
+          </Link>
+          <Link
+            href="/articles"
+            className="group w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-4 bg-white dark:bg-gray-800 text-gray-900 dark:text-white font-bold rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 hover:border-blue-500 transition-all duration-300"
+          >
+            <span className="p-1.5 bg-blue-50 dark:bg-blue-900/40 rounded-lg text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform tracking-tight">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z" /><path d="M8 7h6" /><path d="M8 11h8" /></svg>
+            </span>
+            <span>Read Articles</span>
           </Link>
         </div>
 
