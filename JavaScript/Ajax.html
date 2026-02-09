@@ -1,0 +1,32 @@
+<!-- AJAX allows a web page to communicate with a server in the background, without reloading the page. -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XMLHttpRequest</title>
+</head>
+
+<body>
+    <div id="demo">
+        <p>Let AJAX change this text.</p>
+        <button type="button" onclick="loadDoc()">Change Content</button>
+    </div>
+
+    <script>
+        function loadDoc() {
+            const xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("demo").innerHTML =
+                        this.responseText;
+                }
+            };
+            xhttp.open("GET", "ajax_info.txt"); //open(method, url, async)
+            xhttp.send();
+        }
+    </script>
+</body>
+
+</html>

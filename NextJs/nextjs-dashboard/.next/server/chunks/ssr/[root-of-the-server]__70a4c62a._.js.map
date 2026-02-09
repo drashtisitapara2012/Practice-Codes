@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 3, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"","debugId":null}},
-    {"offset": {"line": 15, "column": 0}, "map": {"version":3,"sources":["file:///home/drashtisitapara/Desktop/Practice_codes/NextJs/nextjs-dashboard/app/dashboard/page.tsx"],"sourcesContent":["export default function Page() {\n  return <p>Dashboard Page</p>;\n}"],"names":[],"mappings":";;;;;;AAAe,SAAS;IACtB,qBAAO,+QAAC;kBAAE;;;;;;AACZ","debugId":null}}]
-}
