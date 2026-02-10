@@ -23,7 +23,7 @@ export async function getArticles(): Promise<StrapiArticle[]> {
         let query = 'fields=Title&fields=Description&fields=slug&populate=Image';
 
         if (isDraft) {
-            query += '&publicationState=preview';
+            query += '&status=draft';
         }
 
         const response = await fetch(`${STRAPI_URL}/api/articles?${query}`, {
@@ -53,7 +53,7 @@ export async function getArticleBySlug(slug: string): Promise<StrapiArticle | nu
         let query = `filters[slug][$eq]=${slug}&populate=*`;
 
         if (isDraft) {
-            query += '&publicationState=preview';
+            query += '&status=draft';
         }
 
         const response = await fetch(`${STRAPI_URL}/api/articles?${query}`, {

@@ -19,7 +19,7 @@ export default async function ArticleDetailPage({ params }: PageProps) {
         notFound();
     }
 
-    const imageData = (article.Cover as any)?.data || article.Cover || (article.Image as any)?.data || article.Image;
+    const imageData = (article.Image as any)?.data || article.Image;
     const imageUrl = getStrapiMedia(imageData?.url);
 
     return (

@@ -30,14 +30,9 @@ export default function CreateArticlePage() {
             const file = e.target.files?.[0] || null;
             setFormData(prev => ({ ...prev, Image: file }));
 
-            if (file) {
-                const reader = new FileReader();
-                reader.onloadend = () => {
-                    setImagePreview(reader.result as string);
-                };
-                reader.readAsDataURL(file);
-            } else {
-                setImagePreview(null);
+           if (file) {
+                const previewUrl = URL.createObjectURL(file);  //createObjectURL() creates a temporary local URL that points to a file stored in the browser’s memory because <Image> cannot access file directly.
+                setImagePreview(previewUrl);
             }
             return;
         }

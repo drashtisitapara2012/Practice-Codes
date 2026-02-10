@@ -20,10 +20,14 @@ export default ({ env }) => ({
   preview: {
     enabled: true,
     config: {
-      handler: async (entry, { model }) => {
-        // This is the URL of your Next.js route we created earlier
-        return `http://localhost:3000/api/draft?slug=${entry.slug}`;
+      allowedOrigins: ['http://localhost:3000'],
+      async handler(uid, { documentId, locale, status }) {
+        const document = await strapi.documents(uid).findOne({ documentId });
+        const slug = document.slug;
+
+        // This is the URL of your Next.js route
+        return `http://localhost:3000/api/draft?slug=${slug}&secret=${process.env.DRAFT_SECRET || 'MY_SECRET_TOKEN'}`;
       },
-    }
+    },
   },
 });
