@@ -2,10 +2,12 @@ import { getArticleBySlug, getStrapiMedia } from '@/app/lib/api/strapi';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import ThemeToggle from '@/app/components/ThemeToggle';
+import LanguageSwitcher from '@/app/components/LanguageSwitcher';
 import { ChevronLeft, Calendar, Edit3 } from 'lucide-react';
 import { BlocksRenderer } from '@strapi/blocks-react-renderer';
 import Image from 'next/image';
 import DeleteArticleButton from '@/app/components/DeleteArticleButton';
+import { draftMode, cookies } from 'next/headers';
 
 interface PageProps {
     params: Promise<{ slug: string }>;
@@ -13,7 +15,10 @@ interface PageProps {
 
 export default async function ArticleDetailPage({ params }: PageProps) {
     const { slug } = await params;
-    const article = await getArticleBySlug(slug);
+    const isDraft = (await draftMode()).isEnabled;
+    const cookieStore = await cookies();
+    const locale = cookieStore.get('NEXT_LOCALE')?.value || 'en';
+    const article = await getArticleBySlug(slug, isDraft, locale);
 
     if (!article) {
         notFound();
@@ -50,6 +55,7 @@ export default async function ArticleDetailPage({ params }: PageProps) {
                                     <div className="w-px h-6 bg-gray-100 dark:bg-gray-700 mx-1" />
                                     <DeleteArticleButton documentId={article.documentId} articleTitle={article.Title} />
                                 </div>
+                                <LanguageSwitcher />
                                 <ThemeToggle />
                             </div>
                         </div>

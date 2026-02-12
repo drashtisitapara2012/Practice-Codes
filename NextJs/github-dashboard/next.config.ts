@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  //for image rendering
   images: {
     remotePatterns: [
       {
@@ -22,6 +23,7 @@ const nextConfig: NextConfig = {
     ],
   },
   async headers() {
+    //without this browser will block iframe embedding by default
     return [
       {
         source: '/api/draft',

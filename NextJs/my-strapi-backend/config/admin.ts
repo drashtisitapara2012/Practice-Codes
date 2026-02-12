@@ -22,12 +22,33 @@ export default ({ env }) => ({
     config: {
       allowedOrigins: ['http://localhost:3000'],
       async handler(uid, { documentId, locale, status }) {
-        const document = await strapi.documents(uid).findOne({ documentId });
-        const slug = document.slug;
+        if (uid === 'api::article.article') {
+          try {
+            console.log(`[Preview Handler] Generating preview URL for documentId: ${documentId}, locale: ${locale}, status: ${status}`);
 
-        // This is the URL of your Next.js route
-        return `http://localhost:3000/api/draft?slug=${slug}&secret=${process.env.DRAFT_SECRET || 'MY_SECRET_TOKEN'}`;
-      },
+            // Fetch the document in the specific locale to get the correct slug
+            const document = await strapi.documents(uid).findOne({
+              documentId,
+              locale
+            });
+
+            if (!document) {
+              console.warn(`[Preview Handler] No document found for ID ${documentId} and locale ${locale}`);
+              return null;
+            }
+
+            const slug = document.slug;
+            const previewUrl = `http://localhost:3000/api/draft?slug=${slug}&secret=${process.env.DRAFT_SECRET || 'MY_SECRET_TOKEN'}&locale=${locale}`;
+
+            console.log(`[Preview Handler] Generated preview URL: ${previewUrl}`);
+            return previewUrl;
+          } catch (error) {
+            console.error('[Preview Handler] Error generating preview URL:', error);
+            return null;
+          }
+        }
+        return null;
+      }
     },
   },
 });

@@ -1,8 +1,10 @@
 import { getArticles, getStrapiMedia } from '@/app/lib/api/strapi';
 import Link from 'next/link';
 import ThemeToggle from '@/app/components/ThemeToggle';
+import LanguageSwitcher from '@/app/components/LanguageSwitcher';
 import { BookOpen, ArrowRight, Image as ImageIcon } from 'lucide-react';
 import Image from 'next/image';
+import { draftMode, cookies } from 'next/headers';
 
 export const metadata = {
     title: 'Articles | GitHub Dashboard',
@@ -10,7 +12,10 @@ export const metadata = {
 };
 
 export default async function ArticlesPage() {
-    const articles = await getArticles();
+    const isDraft = (await draftMode()).isEnabled;
+    const cookieStore = await cookies();
+    const locale = cookieStore.get('NEXT_LOCALE')?.value || 'en';
+    const articles = await getArticles(isDraft, locale);
 
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
@@ -31,7 +36,10 @@ export default async function ArticlesPage() {
                                 <span>Create New Post</span>
                             </Link>
                         </div>
-                        <ThemeToggle />
+                        <div className="flex items-center gap-3">
+                            <LanguageSwitcher />
+                            <ThemeToggle />
+                        </div>
                     </div>
                     <h1 className="text-4xl sm:text-5xl font-black text-gray-900 dark:text-white mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
                         Latest Articles

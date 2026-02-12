@@ -14,9 +14,11 @@ export async function GET(request: Request) {
     // Activate Draft Mode cookie
     (await draftMode()).enable();
 
+    const locale = searchParams.get('locale');
+
     // Redirect to the article being previewed
     if (slug) {
-        redirect(`/articles/${slug}`);
+        redirect(`/articles/preview/${slug}${locale ? `?locale=${locale}` : ''}`);
     }
 
     redirect('/articles');

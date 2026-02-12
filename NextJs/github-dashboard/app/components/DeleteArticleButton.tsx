@@ -17,13 +17,26 @@ export default function DeleteArticleButton({ documentId, articleTitle }: Delete
 
     const handleDelete = async () => {
         setIsDeleting(true);
-        const result = await deleteArticleAction(documentId);
 
-        if (result.success) {
-            router.push('/articles');
-            router.refresh();
-        } else {
-            alert('Failed to delete article: ' + (result.error || 'Unknown error'));
+        try {
+            // Get current locale from cookie
+            const locale = document.cookie
+                .split('; ')
+                .find(row => row.startsWith('NEXT_LOCALE='))
+                ?.split('=')[1];
+
+            const result = await deleteArticleAction(documentId, locale);
+
+            if (result.success) {
+                router.push('/articles');
+                router.refresh();
+            } else {
+                alert('Failed to delete article: ' + (result.error || 'Unknown error'));
+                setIsDeleting(false);
+                setShowConfirm(false);
+            }
+        } catch (err) {
+            alert('An unexpected error occurred');
             setIsDeleting(false);
             setShowConfirm(false);
         }

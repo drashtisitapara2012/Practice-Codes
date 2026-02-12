@@ -30,7 +30,7 @@ export default function CreateArticlePage() {
             const file = e.target.files?.[0] || null;
             setFormData(prev => ({ ...prev, Image: file }));
 
-           if (file) {
+            if (file) {
                 const previewUrl = URL.createObjectURL(file);  //createObjectURL() creates a temporary local URL that points to a file stored in the browser’s memory because <Image> cannot access file directly.
                 setImagePreview(previewUrl);
             }
@@ -59,6 +59,14 @@ export default function CreateArticlePage() {
         data.append('Description', formData.Description);
         data.append('Content', formData.Content);
         data.append('slug', formData.slug);
+
+        // Get current locale from cookie
+        const locale = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('NEXT_LOCALE='))
+            ?.split('=')[1] || 'en';
+        data.append('locale', locale);
+
         if (formData.Image) {
             data.append('Image', formData.Image);
         }
@@ -119,7 +127,7 @@ export default function CreateArticlePage() {
                                 )}
 
                                 <div className="space-y-6">
-                                    
+
 
                                     <div className="space-y-2">
                                         <label htmlFor="Title" className="text-sm font-bold text-gray-700 dark:text-gray-300 ml-1">Title</label>

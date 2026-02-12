@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 import { updateArticleAction } from '@/app/lib/actions/strapi';
-import { getArticleBySlugClient, getStrapiMedia } from '@/app/lib/api/strapi-client';
+import { getArticleBySlug, getStrapiMedia } from '@/app/lib/api/strapi';
 import { ChevronLeft, Save, AlertCircle, CheckCircle2, Loader2, Upload, X } from 'lucide-react';
 import ThemeToggle from '@/app/components/ThemeToggle';
 import Image from 'next/image';
@@ -31,13 +31,37 @@ export default function EditArticlePage() {
     useEffect(() => {
         const fetchArticle = async () => {
             try {
-                const article = await getArticleBySlugClient(currentSlug);
+                // Get current locale from cookie
+                const locale = document.cookie
+                    .split('; ')
+                    .find(row => row.startsWith('NEXT_LOCALE='))
+                    ?.split('=')[1] || 'en';
+
+                const article = await getArticleBySlug(currentSlug, false, locale);
                 if (article) {
                     setDocumentId(article.documentId);
+
+                    // Extract text content from Strapi's blocks format
+                    let contentText = '';
+                    if (Array.isArray(article.Content)) {
+                        contentText = article.Content
+                            .map((block: any) => {
+                                if (block.children) {
+                                    return block.children
+                                        .map((child: any) => child.text || '')
+                                        .join('');
+                                }
+                                return '';
+                            })
+                            .join('\n');
+                    } else if (typeof article.Content === 'string') {
+                        contentText = article.Content;
+                    }
+
                     setFormData({
                         Title: article.Title,
                         Description: article.Description,
-                        Content: typeof article.Content === 'string' ? article.Content : '',
+                        Content: contentText,
                         slug: article.slug,
                         Image: null,
                     });
@@ -96,6 +120,14 @@ export default function EditArticlePage() {
         data.append('Description', formData.Description);
         data.append('Content', formData.Content);
         data.append('slug', formData.slug);
+
+        // Get current locale from cookie
+        const locale = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('NEXT_LOCALE='))
+            ?.split('=')[1] || 'en';
+        data.append('locale', locale);
+
         if (formData.Image) {
             data.append('Image', formData.Image);
         }
@@ -105,7 +137,7 @@ export default function EditArticlePage() {
         if (result.success) {
             setSuccess(true);
             setTimeout(() => {
-                router.push(`/articles/${formData.slug}`);
+                router.push('/articles');
             }, 2000);
         } else {
             setError(result.error || 'Something went wrong while updating the article.');
