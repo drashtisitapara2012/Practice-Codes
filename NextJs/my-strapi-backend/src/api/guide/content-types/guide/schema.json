@@ -1,10 +1,11 @@
 {
-  "kind": "collectionType",
-  "collectionName": "articles",
+  "kind": "singleType",
+  "collectionName": "guides",
   "info": {
-    "singularName": "article",
-    "pluralName": "articles",
-    "displayName": "Articles"
+    "singularName": "guide",
+    "pluralName": "guides",
+    "displayName": "Guide",
+    "description": "General documentation and guide content"
   },
   "options": {
     "draftAndPublish": true
@@ -15,26 +16,14 @@
     }
   },
   "attributes": {
-    "seoData": {
-      "type": "component",
-      "repeatable": false,
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      },
-      "component": "shared.seo"
-    },
-    "slug": {
-      "type": "uid"
-    },
     "Title": {
       "type": "string",
       "pluginOptions": {
         "i18n": {
           "localized": true
         }
-      }
+      },
+      "required": true
     },
     "Content": {
       "type": "blocks",
@@ -42,30 +31,26 @@
         "i18n": {
           "localized": true
         }
-      }
+      },
+      "required": true
     },
     "Description": {
-      "type": "string",
+      "type": "text",
       "pluginOptions": {
         "i18n": {
           "localized": true
         }
       }
     },
-    "Image": {
-      "type": "media",
+    "seoData": {
+      "type": "component",
       "pluginOptions": {
         "i18n": {
           "localized": true
         }
       },
-      "multiple": false,
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ]
+      "component": "shared.seo",
+      "repeatable": false
     }
   }
 }

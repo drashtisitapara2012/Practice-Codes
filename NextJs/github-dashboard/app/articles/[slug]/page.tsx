@@ -1,4 +1,4 @@
-import { getArticleBySlug, getStrapiMedia } from '@/app/lib/api/strapi';
+import { getArticleBySlug, getStrapiMedia, getTranslations, t } from '@/app/lib/api/strapi';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import ThemeToggle from '@/app/components/ThemeToggle';
@@ -13,12 +13,45 @@ interface PageProps {
     params: Promise<{ slug: string }>;
 }
 
+export async function generateMetadata({ params }: PageProps) {
+    const { slug } = await params;
+    const cookieStore = await cookies();
+    const locale = cookieStore.get('NEXT_LOCALE')?.value || 'en';
+    const draft = await draftMode();
+    const isDraft = draft.isEnabled;
+
+    const article = await getArticleBySlug(slug, isDraft, locale);
+
+    if (!article) {
+        return {
+            title: 'Article Not Found',
+        };
+    }
+
+    const { seoData } = article;
+    const shareImageData = (seoData?.shareImage as any)?.data || seoData?.shareImage;
+    const shareImageUrl = getStrapiMedia(shareImageData?.url);
+
+    return {
+        title: seoData?.metaTitle || article.Title,
+        description: seoData?.metaDescription || article.Description,
+        openGraph: shareImageUrl ? {
+            images: [shareImageUrl],
+        } : undefined,
+    };
+}
+
 export default async function ArticleDetailPage({ params }: PageProps) {
     const { slug } = await params;
     const isDraft = (await draftMode()).isEnabled;
     const cookieStore = await cookies();
     const locale = cookieStore.get('NEXT_LOCALE')?.value || 'en';
-    const article = await getArticleBySlug(slug, isDraft, locale);
+
+    // Fetch both article and translations
+    const [article, translations] = await Promise.all([
+        getArticleBySlug(slug, isDraft, locale),
+        getTranslations(locale),
+    ]);
 
     if (!article) {
         notFound();
@@ -40,7 +73,7 @@ export default async function ArticleDetailPage({ params }: PageProps) {
                                 <div className="p-2 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 group-hover:-translate-x-1 transition-transform">
                                     <ChevronLeft size={20} />
                                 </div>
-                                <span>Back to Articles</span>
+                                <span>{t(translations, 'createArticle.backLink', 'Back to Articles')}</span>
                             </Link>
 
                             <div className="flex items-center gap-4">
@@ -48,7 +81,7 @@ export default async function ArticleDetailPage({ params }: PageProps) {
                                     <Link
                                         href={`/articles/edit/${article.slug}`}
                                         className="p-2 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-xl transition-all"
-                                        title="Edit post"
+                                        title={t(translations, 'articleDetail.editTooltip', 'Edit post')}
                                     >
                                         <Edit3 size={20} />
                                     </Link>
@@ -63,7 +96,9 @@ export default async function ArticleDetailPage({ params }: PageProps) {
                         <div className="space-y-6">
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-3">
-                                    <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 rounded-lg text-xs uppercase tracking-widest font-black">Technical Insight</span>
+                                    <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 rounded-lg text-xs uppercase tracking-widest font-black">
+                                        {t(translations, 'articleDetail.category', 'Technical Insight')}
+                                    </span>
                                     <div className="flex items-center gap-2 text-sm text-gray-500 font-medium">
                                         <Calendar size={14} />
                                         <span>{new Date(article.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}</span>
@@ -115,7 +150,7 @@ export default async function ArticleDetailPage({ params }: PageProps) {
 
                     <footer className="mt-16 text-center">
                         <div className="h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-800 to-transparent mb-8" />
-                        <p className="text-gray-500 dark:text-gray-400 font-medium">© 2024 GitHub Dashboard Content Team</p>
+                        <p className="text-gray-500 dark:text-gray-400 font-medium">{t(translations, 'common.footer', '© 2024 GitHub Dashboard Content Team')}</p>
                     </footer>
                 </div>
             </div>
