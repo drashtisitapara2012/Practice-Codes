@@ -12,6 +12,10 @@ interface AppState {
     // Theme
     theme: 'light' | 'dark' | 'system';
     setTheme: (theme: 'light' | 'dark' | 'system') => void;
+
+    // Internationalization (i18n)
+    locale: string;
+    setLocale: (locale: string) => void;
 }
 
 export const useAppStore = create<AppState>()(
@@ -27,6 +31,10 @@ export const useAppStore = create<AppState>()(
             // Theme Defaults
             theme: 'system',
             setTheme: (theme) => set({ theme }),
+
+            // i18n Defaults
+            locale: 'en',
+            setLocale: (locale) => set({ locale }),
         }),
         {
             name: 'github-dashboard-storage', // name of the item in storage (must be unique)
