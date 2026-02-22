@@ -1,0 +1,84 @@
+/* Container for input + button + title */
+.todo-input-container {
+  display: flex;
+  flex-direction: column; /* stack title above input/button */
+  align-items: center;    /* center everything horizontally */
+  gap: 12px;              /* space between title, input, and button */
+  margin: 28px auto;
+  max-width: 500px;       /* prevents stretching on large screens */
+  width: 90%;             /* responsive */
+}
+
+/* Title */
+.todo-input-container h1 {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+  color: #5c79f8; 
+}
+
+/* Wrapper for input + button in same row */
+.input-button-wrapper {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+}
+
+/* Input box */
+.todo-input {
+  flex: 1;                /* input grows to fill space */
+  height: 39px;
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.todo-input:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* Add button */
+.add-btn {
+  height: 39px;
+  padding: 0 24px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.add-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.add-btn:active {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+@media (max-width: 480px) {
+  .input-button-wrapper {
+    flex-direction: column; 
+  }
+
+  .add-btn {
+    width: 100%;          
+  }
+
+  .todo-input {
+    width: 100%;          
+  }
+  .todo-input-container h1 {
+    font-size: 24px;      
+    text-align: center;
+  }
+}
