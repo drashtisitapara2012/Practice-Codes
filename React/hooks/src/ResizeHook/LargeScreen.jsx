@@ -1,4 +1,4 @@
-import useIsLargeScreen from "./useIsLargeScreen";
+import useIsLargeScreen from "../useIsLargeScreen";
 
 function LargeScreen() {
   const isLargeScreen = useIsLargeScreen();

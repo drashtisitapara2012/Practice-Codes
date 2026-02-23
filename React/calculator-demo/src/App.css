@@ -1,0 +1,30 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.input-section,
+.result-section {
+  display: flex;
+  flex-direction: column;
+  margin: 0.5rem;
+}
+
+.result-section {
+  flex-direction: inherit;
+}
+
+.result-section span {
+  margin-left: 0.5rem;
+}
+
+.btn {
+  margin: 0.5rem;
+  padding: 0.5rem;
+  letter-spacing: 1px;
+}
+
+.error-msg {
+  color: #ff0000;
+  font-size: 1.1rem;
+}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation</title>
+</head>
+
+<body>
+    <h1 id="id01"> my First Page</h1>
+    <p id="id02"></p>
+    <p>Displaying document.body</p>
+    <p id="demo"></p>
+    <h2>JavaScript HTMLDOM</h2>
+    <p>Displaying document.documentElement</p>
+    <p id="demo1"></p>
+    <script>
+        document.getElementById("id02").innerHTML = document.getElementById("id01").childNodes[0].nodeValue;
+
+        // document.getElementById("id02").innerHTML = document.getElementById("id01").firstChild.nodeValue;
+        document.getElementById("demo").innerHTML = document.body.innerHTML;  //document.body - Access the body of the document (refers to body element)
+        document.getElementById("demo1").innerHTML = document.documentElement.innerHTML;  //document.documentElement - The full document (refers to html element)
+
+        document.getElementById("id02").innerHTML=document.getElementById("id01").nodeName;  //nodeName always contains the uppercase tag name of an HTML element.
+
+        document.getElementById("id02").innerHTML=document.getElementById("id01").nodeType;  //nodeType is read only. It returns the type of node
+
+        
+    </script>
+</body>
+
+</html>

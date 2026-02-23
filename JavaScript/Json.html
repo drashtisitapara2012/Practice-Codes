@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo</title>
+</head>
+
+<body>
+    <h2>Create Object from JSON String</h2>
+
+    <p id="demo">JSON.parse() demo</p>
+    <p id="obj">JSON.stringify() demo</p>
+    <p id="data">How to modify data</p>
+    <p id="dt">Date example</p>
+    <p id="fun">function example</p>
+
+    <script>
+        let text = '{"employees":[' +
+            '{"firstName":"John","lastName":"Doe" },' +
+            '{"firstName":"Anna","lastName":"Smith" },' +
+            '{"firstName":"Peter","lastName":"Jones" }]}';
+
+        const obj = JSON.parse(text);  //convert JSON string to JS object
+        document.getElementById("demo").innerHTML =
+            obj.employees[1].firstName + " " + obj.employees[1].lastName;
+
+            
+        // JSON.stringify() : convert object to JSON string
+        const myObj1 = { name: "John", age: 30, city: "New York" };
+        const myJSON = JSON.stringify(myObj1);
+        document.getElementById("obj").innerHTML = myJSON;
+
+
+        const myObj = { name: "John", age: 30, city: "New York" };
+        myObj["name"] = "Gilbert"; //to modify the data
+        document.getElementById("data").innerHTML = myObj.name;
+
+
+        //Date objects are not allowed in JSON need to write date as string
+        const text1 = '{"name":"John", "birth":"1986-12-14", "city":"New York"}';
+        const obj1 = JSON.parse(text1, function (key, value) {  //the second parameter in JSON.parse() is alled reviver.The reviver parameter is a function that checks each property, before returning the value.
+            if (key == "birth") {
+                return new Date(value);
+            } else {
+                return value;
+            }
+        });
+        document.getElementById("dt").innerHTML = obj1.name + ", " + obj1.birth;
+
+
+        //Functions are not allowed in JSON. If you need to include a function, write it as a string.
+        const text2 = '{"name":"John", "age":"function () {return 30;}", "city":"New York"}';
+        const obj2 = JSON.parse(text2);
+        obj2.age = eval("(" + obj2.age + ")");  //eval() executes a string as JavaScript code.
+
+        document.getElementById("fun").innerHTML = obj2.name + ", " + obj2.age();
+    </script>
+</body>
+
+</html>
